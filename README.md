@@ -1,2 +1,2 @@
 # FillMyGlass
-CSCE 445 G
+CSCE 445
