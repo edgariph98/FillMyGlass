@@ -7,28 +7,35 @@ such as:
  - Music
 
 ## Installation
+ - pull from master branch
 ### Backend
-####
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+#### Virtual environment 
+Requirements:
+- python3
+- pip
 
+Installing virtualenv (Windows and Unix)
 ```bash
-pip install foobar
+    pip install virtualenv
 ```
-
-## Usage
-
-```python
-import foobar
-
-foobar.pluralize('word') # returns 'words'
-foobar.pluralize('goose') # returns 'geese'
-foobar.singularize('phenomena') # returns 'phenomenon'
+Create new virtual environment
+```bash
+    virtualenv venv
+```
+Activating virtual environment
+-   Windows
+```bash
+    venv\\bin\\activate
+```
+- Unix
+```bash
+    source venv/bin/activate
 ```
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+Contributors
+-Alicia 
+-Ross
+-Adam
+-Alyssa
+-Edgar
