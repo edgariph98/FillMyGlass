@@ -9,28 +9,28 @@ such as:
 ## Installation
  - pull from master branch
 ### Backend
-#### Virtual environment 
-Requirements:
-- python3
-- pip
+    #### Virtual environment 
+    Requirements:
+    - python3
+    - pip
 
-Installing virtualenv (Windows and Unix)
-```bash
-    pip install virtualenv
-```
-Create new virtual environment
-```bash
-    virtualenv venv
-```
-Activating virtual environment
--   Windows
-```bash
-    venv\\bin\\activate
-```
-- Unix
-```bash
-    source venv/bin/activate
-```
+    Installing virtualenv (Windows and Unix)
+    ```bash
+        pip install virtualenv
+    ```
+    Create new virtual environment
+    ```bash
+        virtualenv venv
+    ```
+    Activating virtual environment
+    -   Windows
+    ```bash
+        venv\\bin\\activate
+    ```
+    - Unix
+    ```bash
+        source venv/bin/activate
+    ```
 
 ## Contributing
 Contributors:
