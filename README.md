@@ -33,9 +33,9 @@ Activating virtual environment
 ```
 
 ## Contributing
-Contributors
--Alicia 
--Ross
--Adam
--Alyssa
--Edgar
+Contributors:
+- Alicia 
+- Ross
+- Adam
+- Alyssa
+- Edgar 
