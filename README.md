@@ -32,6 +32,11 @@ Activating virtual environment
     source venv/bin/activate
 ```
 
+Installing python libraries
+```bash
+    pip install -r backend/requirements.txt
+```
+
 ## Contributing
 Contributors:
 - Alicia 
