@@ -5,33 +5,35 @@ import psycopg2
 
 class PostgresConnector:
     def __init__(self):
-        self.DATABASE_URL = ""
+        self.DATABASE_URL = os.environ["DATABASE_URI"]
         self.conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         self.cursor = self.conn.cursor()
-    def executeQuery(self, query):
-        self.cursor.execute(query)
-        #result = self.cursor.fetchall()
+    def executeQuery(self, query, read):
         result = None
+        self.cursor.execute(query)
+        if read:
+            result = self.cursor.fetchall()
+        #result = None
         self.conn.commit()
         return result
 
-    def submitGame(self, gameName, gameType, description, players):
-        query = """INSERT INTO "Games" ("name", "type", "description","players") 
-                    VALUES (\'{}\',\'{}\',\'{}\',{}); """
-        query = query.format(gameName,gameType,description,players)
+    def submitGame(self, gameName,media_name, media_type, game_rules, players):
+        query = """INSERT INTO "Games" ("game_name","media_name","media_type","game_rules","players" ) 
+                    VALUES (\'{}\', \'{}\', \'{}\', \'{}\', {}); """
+        query = query.format(gameName, media_name, media_type, game_rules, players)
         print(query)
-        self.executeQuery(query)
+        self.executeQuery(query,False)
 
     def getAllGames(self):
         query = """ SELECT * FROM \"Games\"; """
-        games = self.executeQuery(query)
+        games = self.executeQuery(query, True)
         for row in games:
-            print(row[0])
+            print(row)
 
     
 
 
 if __name__ == "__main__":
     dbConnector = PostgresConnector()
-    dbConnector.submitGame("randomGame","Music","play this game like this",8)
-    #dbConnector.getAllGames()
+    #dbConnector.submitGame("randomGame2","Pop style","Music", "play this game like this now please",10)
+    dbConnector.getAllGames()
