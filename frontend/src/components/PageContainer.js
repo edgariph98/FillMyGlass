@@ -132,6 +132,7 @@ export const PageContainer = (props) => {
       <CssBaseline />
       <AppBar
         position='fixed'
+        color='inherit'
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
         })}>
