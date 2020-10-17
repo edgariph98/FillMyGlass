@@ -36,7 +36,21 @@ Installing python libraries
 ```bash
     pip install -r backend/requirements.txt
 ```
+Setting up database credentials, (DATABASE_URI) can be found under heroku resources tab
+Unix
+```bash
+    export DATABASE_URI=DatabaseURI
+```
+Windows
+Unix
+```bash
+    set DATABASE_URI=DatabaseURI
+```
 
+starting Flask Server
+```bash
+    python wsgi.py
+```
 ## Contributing
 Contributors:
 - Alicia 
