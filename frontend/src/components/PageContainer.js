@@ -19,7 +19,6 @@ import Search from "@material-ui/icons/Search";
 import Create from "@material-ui/icons/Create";
 import Info from "@material-ui/icons/Info";
 import { Link } from "react-router-dom";
-
 const drawerWidth = 240;
 
 const links = [

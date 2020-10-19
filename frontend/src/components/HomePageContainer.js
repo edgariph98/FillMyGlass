@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
-const theme = {
+const theme =
+{
   margin: "0 auto",
   textAlign: "center",
   width: "100vw",
@@ -10,7 +11,7 @@ const theme = {
 
 const HomePageContainer = (props) => {
   useEffect(() => {
-    document.body.style.backgroundColor = "#001a33";
+    document.body.style.backgroundColor = "#121725";
   }, []);
   return (
     <div

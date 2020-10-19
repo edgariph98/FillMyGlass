@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
 import { getAllGames } from "../utils/routes";
+import styles from "/home/a/Desktop/FillMyGlass/frontend/src/App.css";
+import "/home/a/Desktop/FillMyGlass/frontend/src/App.css";
 
 class Find extends Component {
   constructor(props) {
@@ -28,8 +30,23 @@ class Find extends Component {
       });
   };
 
-  generateContent = () => {
-    return <h2 style={{ color: "white" }}>{this.state.content}</h2>;
+  generateContent = () =>
+  {
+    return (
+      <div>
+
+        {/* This font is imported from google fonts. The css file it is imported in is App.css. */}
+        <h2 style={{fontSize: "75px", fontFamily: "Bungee Shade, cursive", color: "#F2CA80", textAlign: "center"}}>{this.state.content}</h2>
+
+        {/*  This "form" element is not implemented yet. It is just a placeholder. */}
+        <form style={{textAlign: "center"}}>
+          <p style ={{color: "white"}}> Search Drinking Games </p>
+          <input type="text" style={{width: "300px"}}/>
+          <input type="button" onclick="SearchForThis" value="Search"/>
+        </form>
+        
+      </div>
+    );
   };
 
   render() {

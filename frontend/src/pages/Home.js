@@ -5,7 +5,7 @@ import HomePageContainer from "../components/HomePageContainer";
 
 export const Home = () => (
   <HomePageContainer>
-    <div>
+    <div style={{marginTop: "200px"}}>
       <h2>Are You 21+?</h2>
       <Button variant='contained'>
         <Link to='/find'>Yes</Link>

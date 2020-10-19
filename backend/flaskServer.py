@@ -14,7 +14,7 @@ def create_app():
 
     @app.route('/games/get',  methods=['GET', 'POST'])
     def get_games():
-        return "Hi there"
+        return "Fill My Glass"
 
     return app
 if __name__ == "__main__":
