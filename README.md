@@ -84,6 +84,11 @@ Start Frontend React Server
 ```bash
     1. Navigate to 'frontend' folder
     2. npm start
+```
+
+If `npm start` gives you an error “npm ERR! code ELIFECYCLE...” do `npm cache clean --force` then `npm install` again and if it asks you to, do `npm audit fix` and `npm fund`. Now you can try `npm start` again.
+
+```
     3. Navigate to localhost:3000
 ```
 
