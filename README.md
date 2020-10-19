@@ -25,6 +25,7 @@ Installing virtualenv (Windows and Unix)
 ```bash
     pip install virtualenv
 ```
+If pip gives you a version warning, try `python3 -m pip install --upgrade pip`
 
 Create new virtual environment
 
