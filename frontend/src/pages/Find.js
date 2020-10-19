@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
 import { getAllGames } from "../utils/routes";
-import styles from "/home/a/Desktop/FillMyGlass/frontend/src/App.css";
-import "/home/a/Desktop/FillMyGlass/frontend/src/App.css";
+import styles from "../App.css";
+import "../App.css";
 
 class Find extends Component {
   constructor(props) {

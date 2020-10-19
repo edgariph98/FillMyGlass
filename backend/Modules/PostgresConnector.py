@@ -27,9 +27,17 @@ class PostgresConnector:
     def getAllGames(self):
         query = """ SELECT * FROM \"Games\"; """
         games = self.executeQuery(query, True)
+        gameList = []
         for row in games:
-            print(row)
-
+            game = {}
+            game["game-name"] = row[1]
+            game["media-name"] = row[2]
+            game["media-type"] = row[3]
+            game["description"] = row[4]
+            game["players"] = row[5]
+            gameList.append(game)
+            #print(row)
+        return gameList
     
 
 
