@@ -8,6 +8,7 @@ class PostgresConnector:
         self.DATABASE_URL = os.environ["DATABASE_URI"]
         self.conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
         self.cursor = self.conn.cursor()
+    #executing query and returning value if we want to read it
     def executeQuery(self, query, read):
         result = None
         self.cursor.execute(query)
@@ -16,7 +17,7 @@ class PostgresConnector:
         #result = None
         self.conn.commit()
         return result
-
+    #game submission to database
     def submitGame(self, gameName,media_name, media_type, game_rules, players):
         query = """INSERT INTO "Games" ("game_name","media_name","media_type","game_rules","players" ) 
                     VALUES (\'{}\', \'{}\', \'{}\', \'{}\', {}); """
@@ -24,6 +25,8 @@ class PostgresConnector:
         print(query)
         self.executeQuery(query,False)
 
+    
+    #gets all games from database
     def getAllGames(self):
         query = """ SELECT * FROM \"Games\"; """
         games = self.executeQuery(query, True)
