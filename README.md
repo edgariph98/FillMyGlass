@@ -52,7 +52,8 @@ Installing python libraries
     pip install -r backend/requirements.txt
 ```
 Setting up database credentials, (DATABASE_URI) can be found under heroku resources tab
-Unix
+Unix. You can log into heroku and click on Fill-My-Glass, go to Resources, click on Heroku Postgres, go to Settings, 
+then click on Database Credentials. DATABASE_URI=postgres://...
 ```bash
     export DATABASE_URI=DatabaseURI
 ```
