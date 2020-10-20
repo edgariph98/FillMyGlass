@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
 import { Formik } from "formik";
 import { Input, Button, Tag } from "antd";
+import { addGame } from "../utils/routes";
+import "../css/App.css";
+
+const { TextArea } = Input;
 
 const theme = {
   margin: "0 auto",
@@ -16,7 +20,7 @@ class Create extends Component {
   }
 
   generateContent = () => {
-    const tagStyle = { backgroundColor: "black", color: "white" };
+    const tagStyle = { backgroundColor: "red", color: "black" };
     const divStyle = { marginTop: "2%", marginBottom: "0%" };
     return (
       <div style={{ ...theme }}>
@@ -52,8 +56,17 @@ class Create extends Component {
 
             return errors;
           }}
-          onSubmit={(game) => {
+          onSubmit={(game, { resetForm, setSubmitting }) => {
             console.log(game);
+            addGame(game);
+            // .then((res) =>
+            // res.json().then((response) => {
+            //   if (response === -1) {
+            //     alert("Error creating game");
+            //   }
+            //   })
+            // );
+            resetForm();
           }}>
           {({
             values,
@@ -76,19 +89,21 @@ class Create extends Component {
                   onBlur={handleBlur}
                   value={values["game-name"]}
                   placeholder='Game Name'
+                  size='large'
                 />
               </div>
               {errors["game-name"] && touched["game-name"] && (
                 <Tag style={tagStyle}>{errors["game-name"]}</Tag>
               )}
               <div style={divStyle}>
-                <Input
+                <TextArea
                   type='description'
                   name='description'
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values["description"]}
                   placeholder='Game Description'
+                  autoSize={{ minRows: 3 }}
                 />
               </div>
               {errors["description"] && touched["description"] && (

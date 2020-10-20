@@ -19,6 +19,7 @@ import Search from "@material-ui/icons/Search";
 import Create from "@material-ui/icons/Create";
 import Info from "@material-ui/icons/Info";
 import { Link } from "react-router-dom";
+import "../css/App.css";
 const drawerWidth = 240;
 
 const links = [
@@ -112,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
 
 export const PageContainer = (props) => {
   useEffect(() => {
-    document.body.style.backgroundColor = "#001a33";
+    document.body.style.backgroundColor = "#121725";
   }, []);
   const classes = useStyles();
   const theme = useTheme();
@@ -146,9 +147,6 @@ export const PageContainer = (props) => {
             })}>
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap>
-            Fill My Glass
-          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -184,6 +182,15 @@ export const PageContainer = (props) => {
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+        <h2
+          style={{
+            fontSize: "75px",
+            fontFamily: "Bungee Shade, cursive",
+            color: "#F2CA80",
+            textAlign: "center",
+          }}>
+          Fill My Glass
+        </h2>
         {props.content}
       </main>
     </div>
