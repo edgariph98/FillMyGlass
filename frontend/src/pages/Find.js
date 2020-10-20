@@ -47,17 +47,6 @@ class Find extends Component {
     return (
       <>
         <div>
-          {/* This font is imported from google fonts. The css file it is imported in is App.css. */}
-          <h2
-            style={{
-              fontSize: "75px",
-              fontFamily: "Bungee Shade, cursive",
-              color: "#F2CA80",
-              textAlign: "center",
-            }}>
-            Fill My Glass
-          </h2>
-
           {/*  This "form" element is not implemented yet. It is just a placeholder. */}
           <form style={{ textAlign: "center" }}>
             <p style={{ color: "white" }}> Search Drinking Games </p>
