@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
+import "../css/App.css";
 
-const theme =
-{
+const theme = {
   margin: "0 auto",
   textAlign: "center",
   width: "100vw",
@@ -18,6 +18,15 @@ const HomePageContainer = (props) => {
       style={{
         ...theme,
       }}>
+      <h2
+        style={{
+          fontSize: "75px",
+          fontFamily: "Bungee Shade, cursive",
+          color: "#F2CA80",
+          textAlign: "center",
+        }}>
+        Fill My Glass
+      </h2>
       {props.children}
     </div>
   );
