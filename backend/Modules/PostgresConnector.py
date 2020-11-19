@@ -1,5 +1,6 @@
 import os
 import psycopg2
+import json
 ###
 #Connecting to database -> heroku pg:psql -app fill-my-glass
 
@@ -54,23 +55,38 @@ class PostgresConnector:
         #all parameters 
         if keyword and media_type and players:
             keyword = self.parseStringArgument(keyword)
+            keyword =  "%" + keyword + "%"
             query = """SELECT * FROM "Games"
                         WHERE media_type = \'{}\'
-                            AND "players" >= 1
-                                AND (game_rules ILIKE '%drink%'
-                                    OR game_name ILIKE '%drink%'
-                                    OR media_name ILIKE  '%drink%');"""
+                            AND "players" >= {}
+                                AND (game_rules ILIKE \'{}\'
+                                    OR game_name ILIKE \'{}\'
+                                    OR media_name ILIKE  \'{}\');"""
+            query = query.format(media_type,players,keyword,keyword,keyword)
         #only media type
         if not keyword and media_type:
-            pass
+            query = """SELECT * FROM "Games"
+                        WHERE media_type = \'{}\'
+                            AND "players" >= {};"""
+
+            query = query.format(media_type,players)
         #only keyword
         if not media_type and keyword:
-            pass
+            keyword =  "%" + keyword + "%"
+            query = """SELECT * FROM "Games"
+                        WHERE "players" >= {}
+                                AND (game_rules ILIKE \'{}\'
+                                    OR game_name ILIKE \'{}\'
+                                    OR media_name ILIKE  \'{}\');"""
+
+            query = query.format(players,keyword,keyword,keyword)
         #only players
         if not media_type and not keyword:
-            pass
-
+            query = """SELECT * FROM "Games"
+                        WHERE "players" >= {};"""
+            query = query.format(players)
         games = self.executeQuery(query, True)
+        print(query)
         for row in games:
             game = {}
             game["game-name"] = row[1]
@@ -80,6 +96,7 @@ class PostgresConnector:
             game["players"] = row[5]
             game["url"] = row[6] if row[6] else "None"
             gameList.append(game)
+
         return gameList
     def parseStringArgument(self,string):
         parsedString = string.replace('"','\\"').strip()
@@ -90,5 +107,6 @@ class PostgresConnector:
 
 if __name__ == "__main__":
     dbConnector = PostgresConnector()
-    dbConnector.submitGame("randomGame3","Pop style","Music", "play this game like this now please",10,"")
+    #dbConnector.submitGame("randomGame3","Pop style","Music", "play this game like this now please",10,"")
     #dbConnector.getAllGames()
+    print(json.dumps(dbConnector.getGames("","",3), indent=4))
