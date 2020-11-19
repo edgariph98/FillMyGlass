@@ -1,6 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Bungee+Shade&display=swap");
 
+div {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+
+       url('../fonts/Lato-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
+}
+
 .oval-button {
+  font-family: 'Lato';
   background-color: #ddd;
   border: none;
   color: black;
@@ -16,4 +26,78 @@
 .oval-button:hover{
   background-color: #f1f1f1;
   box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.oval-searchBar {
+  background-color: #ddd;
+  border: solid black;
+  color: black;
+  padding: 10px 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
+}
+
+menuLink:link, menuLink:visited{
+  background-color: white;
+  color: black;
+  border: 2px solid green;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+menuLink:hover, menuLink:active{
+  background-color: green;
+  color: white;
+}
+
+/* lato-regular */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local(''),
+
+       url('../fonts/Lato-Regular.ttf') format('truetype'), /* Safari, Android, iOS */
+}
+/* lato-italic */
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 400;
+  src: local(''),
+
+       url('../fonts/Lato-Italic.ttf') format('truetype'), /* Safari, Android, iOS */
+}
+/* lato-900  */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 900;
+  src: local(''),
+
+       url('../fonts/Lato-Black.ttf') format('truetype'), /* Safari, Android, iOS */
+}
+/* lato-700italic */
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 700;
+  src: local(''),
+
+       url('../fonts/Lato-BoldItalic.ttf') format('truetype'), /* Safari, Android, iOS */
+}
+/* lato-900italic */
+@font-face {
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 900;
+  src: local(''),
+
+       url('../fonts/Lato-BlackItalic.ttf') format('truetype'), /* Safari, Android, iOS */
 }

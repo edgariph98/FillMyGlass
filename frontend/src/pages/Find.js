@@ -28,6 +28,8 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import { Select, Input, Button } from "antd";
 import "../css/App.css";
+import "../fonts/Lato-Regular.ttf";
+import Button from "@material-ui/core/Button";
 
 const { TextArea } = Input;
 const { Option } = Select;
