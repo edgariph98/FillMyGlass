@@ -8,9 +8,18 @@ def create_app():
     #submit games to database route
     @app.route('/games/submit', methods=['GET', 'POST'])
     def submit_games():
-        game = request.get_json()
+        response = {}
+        try:
+            game = request.get_json()
+            database_conn.submitGame(game["game-name"], game["media-name"],game["media-type"], game["description"],game["players"], game["URL"])
+            response["Response"] = 200
+            response["Description"] = "New Game Submitted"
+
+        except:
+            response["Response"] = 400
+            response["Description"] = "Unable to submit game into database"
         
-        return 'Hello, World!'
+        return jsonify(response)
     #Get Games route
     @app.route('/games/get',  methods=['GET', 'POST'])
     def get_games():
