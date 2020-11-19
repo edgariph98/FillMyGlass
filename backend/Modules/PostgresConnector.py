@@ -108,5 +108,5 @@ class PostgresConnector:
 if __name__ == "__main__":
     dbConnector = PostgresConnector()
     #dbConnector.submitGame("randomGame3","Pop style","Music", "play this game like this now please",10,"")
-    #dbConnector.getAllGames()
-    print(json.dumps(dbConnector.getGames("","",3), indent=4))
+    print(len(dbConnector.getAllGames()))
+    #print(json.dumps(dbConnector.getGames("","",3), indent=4))
