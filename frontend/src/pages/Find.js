@@ -7,6 +7,8 @@ import GridListTile from "@material-ui/core/GridListTile";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import "../css/App.css";
+import "../fonts/Lato-Regular.ttf";
+import Button from "@material-ui/core/Button";
 
 const theme = {
   margin: "0 auto",
@@ -49,9 +51,9 @@ class Find extends Component {
         <div>
           {/*  This "form" element is not implemented yet. It is just a placeholder. */}
           <form style={{ textAlign: "center" }}>
-            <p style={{ color: "white" }}> Search Drinking Games </p>
-            <input type='text' style={{ width: "300px" }} />
-            <input type='button' onclick='SearchForThis' value='Search' />
+            <p style={{ color: "white"  } }> Search Drinking Games </p>
+            <input class = 'oval-searchBar' type='text' style={{ width: "500px" }} />
+            <input class = 'oval-button' type='button' onclick='SearchForThis' value='Search' />
           </form>
         </div>
 
