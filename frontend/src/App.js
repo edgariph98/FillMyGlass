@@ -4,6 +4,7 @@ import { Home } from "./pages/Home";
 import { Find } from "./pages/Find";
 import Create from "./pages/Create";
 import { About } from "./pages/About";
+import "antd/dist/antd.css";
 
 export const App = () => {
   return (
