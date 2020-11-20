@@ -24,7 +24,11 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
+import { Select, Input, Button } from "antd";
 import "../css/App.css";
+
+const { TextArea } = Input;
+const { Option } = Select;
 
 const links = [
   {
@@ -128,11 +132,12 @@ export const Find = (props) => {
     getAllGames()
       .then((res) => res.json())
       .then((resp) => {
-        console.log(resp);
         if (resp.Response === 200) {
           setGames(resp.games);
         }
       });
+
+    // make call to backend for mediaTypes
   }, []);
 
   const classes = useStyles();
@@ -147,9 +152,9 @@ export const Find = (props) => {
     setOpen(false);
   };
 
-  const handleFilterMediaTypeChange = (e) => {
+  const handleFilterMediaTypeChange = (value) => {
     setFilters({
-      "media-type": e.target.value,
+      "media-type": value,
       players: filters.players,
       keyword: filters.keyword,
     });
@@ -177,7 +182,6 @@ export const Find = (props) => {
     filteredGames(filters)
       .then((res) => res.json())
       .then((resp) => {
-        console.log(resp);
         if (resp.Response === 200) {
           setGames(resp.games);
         }
@@ -190,7 +194,6 @@ export const Find = (props) => {
     getAllGames()
       .then((res) => res.json())
       .then((resp) => {
-        console.log(resp);
         if (resp.Response === 200) {
           setGames(resp.games);
         }
@@ -203,12 +206,6 @@ export const Find = (props) => {
     });
 
     setHasBeenFiltered(false);
-  };
-
-  const numPlayersArray = () => {
-    let a = Array.from({ length: 20 }, (_, i) => i + 1);
-    a.unshift("");
-    return a;
   };
 
   return (
@@ -266,67 +263,59 @@ export const Find = (props) => {
             fontFamily: "Bungee Shade, cursive",
             color: "#F2CA80",
             textAlign: "center",
+            margin: "5% 0% 2% 0%",
           }}>
           Fill My Glass
         </h2>
 
-        <form onSubmit={handleFilter}>
-          <div
-            style={{ margin: "0 auto", textAlign: "center", color: "white" }}>
-            <label style={{ margin: "0% 1%" }}>
-              Filter by Media Type
-              <select
-                style={{ margin: "0% 0.5%" }}
-                value={filters["media-type"]}
-                onChange={handleFilterMediaTypeChange}>
-                {mediaTypes.map((mediaType, index) => (
-                  <option value={mediaType} key={index}>
-                    {mediaType}
-                  </option>
-                ))}
-              </select>
-            </label>
+        <div style={{ margin: "0 auto", textAlign: "center", color: "white" }}>
+          <Select
+            style={{ margin: "0% 0% 0% 4%", width: "10%" }}
+            value={filters["media-type"]}
+            onChange={handleFilterMediaTypeChange}
+            placeholder='Filter by Media Type' 
+          >
+            {mediaTypes.map((mediaType, index) => (
+              <Option value={mediaType} key={index}>
+                {mediaType}
+              </Option>
+            ))}
+          </Select>
 
-            <label style={{ margin: "0% 1%" }}>
-              Filter by Number of Players
-              <select
-                style={{ margin: "0% 0.5%" }}
-                value={filters["players"]}
-                onChange={handleFilterPlayerNumChange}>
-                {numPlayersArray().map((num, index) => (
-                  <option value={num} key={index}>
-                    {num}
-                  </option>
-                ))}
-              </select>
-            </label>
+          <Input
+            style={{ margin: "0% 0% 0% 4%", width: "15%" }}
+            value={filters["players"]}
+            onChange={handleFilterPlayerNumChange}
+            placeholder='Filter by Number of Players'
+          />
+        </div>
 
-            <label style={{ margin: "0% 1%" }}>
-              Filter by Keyword(s)
-              <textarea
-                style={{ margin: "0% 0.5%" }}
-                value={filters["keyword"]}
-                onChange={handleFilterKeywordChange}
-              />
-            </label>
-          </div>
+        <div style={{ margin: "2% 0% ", textAlign: "center", color: "white" }}>
+          <TextArea
+            style={{ width: "20%" }}
+            value={filters["keyword"]}
+            onChange={handleFilterKeywordChange}
+            placeholder='Filter by Keyword(s)'
+          />
+        </div>
 
-          <div
-            style={{ margin: "0 auto", textAlign: "center", color: "white" }}>
-            <input
-              style={{ margin: "2% 0% 0% 0%" }}
-              type='submit'
-              value='Filter'
-            />
-          </div>
-        </form>
+        <div
+          style={{
+            margin: "2% 0% 0% 0%",
+            textAlign: "center",
+            color: "white",
+          }}>
+          <Button onClick={handleFilter}>Filter</Button>
+        </div>
 
         {hasBeenFiltered && (
           <div
-            style={{ margin: "0 auto", textAlign: "center", color: "white" }}>
-            <button style={{ margin: "2% 0% 0% 0%" }} onClick={clearFilters}>
-              Clear filters
-            </button>
+            style={{
+              margin: "2% 0% 0% 0%",
+              textAlign: "center",
+              color: "white",
+            }}>
+            <Button onClick={clearFilters}>Clear Filters</Button>
           </div>
         )}
 
@@ -341,23 +330,10 @@ export const Find = (props) => {
             {games.map((game, index) => (
               <GridListTile key={index} cols={1}>
                 <Card>
-                  <CardContent>
+                  <CardContent style={{ textAlign: "center" }}>
                     <Typography style={{ ...theme }}>
-                      {game["game-name"]}
+                      <h2>{game["game-name"]}</h2>
                     </Typography>
-                    <Typography style={{ ...theme }}>
-                      {game["description"]}
-                    </Typography>
-                    <Typography style={{ ...theme }}>
-                      {game["media-name"]}
-                    </Typography>
-                    <Typography style={{ ...theme }}>
-                      {game["media-type"]}
-                    </Typography>
-                    <Typography style={{ ...theme }}>
-                      {game["players"]}
-                    </Typography>
-                    <Typography style={{ ...theme }}>{game["url"]}</Typography>
                   </CardContent>
                 </Card>
               </GridListTile>

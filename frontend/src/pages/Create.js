@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
 import { Formik } from "formik";
-import { Input, Button, Tag } from "antd";
+import { Input, Button, Tag, Select } from "antd";
 import { addGame } from "../utils/routes";
 import "../css/App.css";
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 const theme = {
   margin: "0 auto",
@@ -16,12 +17,28 @@ class Create extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      mediaTypes: [],
+    };
   }
 
+  componentDidMount = () => {
+    // make call to backend to get mediaTypes
+    let mediaTypes = ["Television"]
+    this.setState({
+      ["mediaTypes"]: mediaTypes.map((mediaType, index) => (
+        <Option value={mediaType} key={index}>
+          {mediaType}
+        </Option>
+      )),
+    });
+  };
+
   generateContent = () => {
+    const { mediaTypes } = this.state;
     const tagStyle = { backgroundColor: "red", color: "black" };
-    const divStyle = { marginTop: "2%", marginBottom: "0%", width: "100%" };
+    const divStyle = { margin: "0 auto", width: "60%" };
+
     return (
       <div style={{ ...theme }}>
         <Formik
@@ -31,7 +48,7 @@ class Create extends Component {
             "media-name": "",
             "media-type": "",
             players: "",
-            URL: ""
+            URL: "",
           }}
           validate={(values) => {
             const errors = {};
@@ -51,22 +68,22 @@ class Create extends Component {
               errors["media-type"] = "Media Type Required";
             }
 
-            if (!values["players"]) {
-              errors["players"] = "Number of Players Required";
+            if (!/^\d*[1-9]\d*$/.test(values["players"])) {
+              errors["players"] = "Please enter a number greater than zero";
             }
 
             return errors;
           }}
           onSubmit={(game, { resetForm, setSubmitting }) => {
-            console.log(game);
-            addGame(game)
-              .then((res) =>
+            addGame(game).then((res) =>
               res.json().then((response) => {
                 if (response.Response !== 200) {
                   alert("Error creating game");
+                } else {
+                  alert("Game created successfully!");
                 }
-                })
-              );
+              })
+            );
             resetForm();
           }}>
           {({
@@ -104,7 +121,8 @@ class Create extends Component {
                   onBlur={handleBlur}
                   value={values["description"]}
                   placeholder='Game Description'
-                  autoSize={{ minRows: 7 }}
+                  autoSize={{ minRows: 3 }}
+                  style={{ margin: "3% 0%" }}
                 />
               </div>
               {errors["description"] && touched["description"] && (
@@ -124,14 +142,17 @@ class Create extends Component {
                 <Tag style={tagStyle}>{errors["media-name"]}</Tag>
               )}
               <div style={divStyle}>
-                <Input
+                <Select
                   type='media-type'
                   name='media-type'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values["media-type"]}
-                  placeholder='Media Type'
-                />
+                  style={{ width: "100%", textAlign: "left", margin: "3% 0%" }}
+                  onChange={(value) => {
+                    values["media-type"] = value
+                  }}
+                  placeholder='Media Type' 
+                >
+                  {mediaTypes}
+                </Select>
               </div>
               {errors["media-type"] && touched["media-type"] && (
                 <Tag style={tagStyle}>{errors["media-type"]}</Tag>
@@ -157,6 +178,7 @@ class Create extends Component {
                   onBlur={handleBlur}
                   value={values["URL"]}
                   placeholder='Game URL'
+                  style={{ margin: "3% 0%" }}
                 />
               </div>
               <div style={divStyle}>
