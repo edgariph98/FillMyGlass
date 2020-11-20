@@ -102,6 +102,16 @@ class PostgresConnector:
         parsedString = string.replace('"','\\"').strip()
         return parsedString
 
+    def getMediaTypes(self):
+        query = """SELECT DISTINCT media_type FROM "Games";"""
+
+        rows = self.executeQuery(query,True)
+        media_types =[]
+        for row in rows:
+            media_types.append(row[0])
+
+        return media_types
+
     
 
 

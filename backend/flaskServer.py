@@ -48,6 +48,21 @@ def create_app():
             response["Description"] = " unable to retrieve games from database"
 
         return jsonify(response)
+
+
+    @app.route('/games/get/mediatypes',  methods=['GET', 'POST'])
+    def get_media_types():
+        response =  {}
+        try:
+            
+            response["media-types"] = database_conn.getMediaTypes()
+            response["Response"] = 200
+        except:
+            response["Response"] = 400
+            response["Description"] = " unable to retrieve games from database"
+
+        return jsonify(response)
     return app
+
 if __name__ == "__main__":
     create_app().run(debug=True)
