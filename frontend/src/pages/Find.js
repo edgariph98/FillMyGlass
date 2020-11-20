@@ -1,5 +1,6 @@
 import { getAllGames, filteredGames } from "../utils/routes";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -129,13 +130,25 @@ export const Find = (props) => {
   useEffect(() => {
     document.body.style.backgroundColor = "#121725";
 
-    getAllGames()
-      .then((res) => res.json())
-      .then((resp) => {
-        if (resp.Response === 200) {
-          setGames(resp.games);
-        }
-      });
+    if (localStorage.length > 0) {
+      if (localStorage.hasOwnProperty("games")) {
+        hydrateStateWithLocalStorage("games", setGames);
+      }
+
+      if (localStorage.hasOwnProperty("filters"))
+        hydrateStateWithLocalStorage("filters", setFilters);
+
+      if (localStorage.hasOwnProperty("hasBeenFiltered"))
+        hydrateStateWithLocalStorage("hasBeenFiltered", setHasBeenFiltered);
+    } else {
+      getAllGames()
+        .then((res) => res.json())
+        .then((resp) => {
+          if (resp.Response === 200) {
+            setGames(resp.games);
+          }
+        });
+    }
 
     // make call to backend for mediaTypes
   }, []);
@@ -143,6 +156,17 @@ export const Find = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+
+  const hydrateStateWithLocalStorage = (key, setStateFunction) => {
+    let value = localStorage.getItem(key);
+
+    try {
+      value = JSON.parse(value);
+      setStateFunction(value);
+    } catch (e) {
+      setStateFunction(value);
+    }
+  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -206,6 +230,15 @@ export const Find = (props) => {
     });
 
     setHasBeenFiltered(false);
+  };
+
+  const history = useHistory();
+  const goToGame = (game) => {
+    localStorage.setItem("selectedGame", JSON.stringify(game));
+    localStorage.setItem("games", JSON.stringify(games));
+    localStorage.setItem("filters", JSON.stringify(filters));
+    localStorage.setItem("hasBeenFiltered", hasBeenFiltered);
+    history.push("/game-details");
   };
 
   return (
@@ -273,8 +306,7 @@ export const Find = (props) => {
             style={{ margin: "0% 0% 0% 4%", width: "10%" }}
             value={filters["media-type"]}
             onChange={handleFilterMediaTypeChange}
-            placeholder='Filter by Media Type' 
-          >
+            placeholder='Filter by Media Type'>
             {mediaTypes.map((mediaType, index) => (
               <Option value={mediaType} key={index}>
                 {mediaType}
@@ -329,7 +361,7 @@ export const Find = (props) => {
             }}>
             {games.map((game, index) => (
               <GridListTile key={index} cols={1}>
-                <Card>
+                <Card onClick={() => goToGame(game)}>
                   <CardContent style={{ textAlign: "center" }}>
                     <Typography style={{ ...theme }}>
                       <h2>{game["game-name"]}</h2>
