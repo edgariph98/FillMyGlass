@@ -6,7 +6,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -20,7 +19,6 @@ import Create from "@material-ui/icons/Create";
 import Info from "@material-ui/icons/Info";
 import { Link } from "react-router-dom";
 import "../css/App.css";
-const drawerWidth = 240;
 
 const links = [
   {
@@ -49,65 +47,62 @@ const links = [
   },
 ];
 
+const drawerWidth = 240;
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
+    display: 'flex',
   },
   appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
+    transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
   },
   appBarShift: {
-    marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
+    marginLeft: drawerWidth,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   menuButton: {
-    marginRight: 36,
+    marginRight: theme.spacing(2),
   },
   hide: {
-    display: "none",
+    display: 'none',
   },
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: "nowrap",
   },
-  drawerOpen: {
+  drawerPaper: {
     width: drawerWidth,
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
   },
-  drawerClose: {
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    overflowX: "hidden",
-    width: theme.spacing(7) + 1,
-    [theme.breakpoints.up("sm")]: {
-      width: theme.spacing(9) + 1,
-    },
-  },
-  toolbar: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-end",
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
+    justifyContent: 'flex-end',
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
   },
 }));
 
@@ -131,43 +126,36 @@ export const PageContainer = (props) => {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
-        position='fixed'
+        position="fixed"
         color='inherit'
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
-        })}>
+        })}
+      >
         <Toolbar>
           <IconButton
-            color='inherit'
-            aria-label='open drawer'
+            color="inherit"
+            aria-label="open drawer"
             onClick={handleDrawerOpen}
-            edge='start'
-            className={clsx(classes.menuButton, {
-              [classes.hide]: open,
-            })}>
+            edge="start"
+            className={clsx(classes.menuButton, open && classes.hide)}
+          >
             <MenuIcon />
           </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
-        variant='permanent'
-        className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
-        })}
+        className={classes.drawer}
+        variant="persistent"
+        anchor="left"
+        open={open}
         classes={{
-          paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
-          }),
-        }}>
-        <div className={classes.toolbar}>
+          paper: classes.drawerPaper,
+        }}
+      >
+        <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </div>
         <Divider />
