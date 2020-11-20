@@ -176,6 +176,7 @@ export const PageContainer = (props) => {
             fontFamily: "Bungee Shade, cursive",
             color: "#F2CA80",
             textAlign: "center",
+            margin: "5% 0% 2% 0%"
           }}>
           Fill My Glass
         </h2>
