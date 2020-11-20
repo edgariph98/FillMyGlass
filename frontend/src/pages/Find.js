@@ -141,6 +141,11 @@ export const Find = (props) => {
 
       if (localStorage.hasOwnProperty("hasBeenFiltered"))
         hydrateStateWithLocalStorage("hasBeenFiltered", setHasBeenFiltered);
+      
+      localStorage.removeItem("games");
+      localStorage.removeItem("filters");
+      localStorage.removeItem("hasBeenFiltered");
+      localStorage.removeItem("selectedGame");
     } else {
       getAllGames()
         .then((res) => res.json())
