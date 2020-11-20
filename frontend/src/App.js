@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 import { Home } from "./pages/Home";
-import Find from "./pages/Find";
+import { Find } from "./pages/Find";
 import Create from "./pages/Create";
 import { About } from "./pages/About";
 
