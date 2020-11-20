@@ -24,6 +24,7 @@ import Card from "@material-ui/core/Card";
 import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Typography from "@material-ui/core/Typography";
+import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
 import { Select, Input, Button } from "antd";
 import "../css/App.css";
@@ -361,13 +362,15 @@ export const Find = (props) => {
             }}>
             {games.map((game, index) => (
               <GridListTile key={index} cols={1}>
-                <Card onClick={() => goToGame(game)}>
-                  <CardContent style={{ textAlign: "center" }}>
-                    <Typography style={{ ...theme }}>
-                      <h2>{game["game-name"]}</h2>
-                    </Typography>
-                  </CardContent>
-                </Card>
+                <CardActionArea>
+                  <Card onClick={() => goToGame(game)}>
+                    <CardContent style={{ textAlign: "center" }}>
+                      <Typography style={{ ...theme }}>
+                        <h2>{game["game-name"]}</h2>
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </CardActionArea>
               </GridListTile>
             ))}
           </GridList>
