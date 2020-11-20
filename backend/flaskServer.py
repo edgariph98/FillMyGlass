@@ -45,7 +45,7 @@ def create_app():
             response["Response"] = 200
         except:
             response["Response"] = 400
-            response["Description"] = " unable to retrieve games from database"
+            response["Description"] = " unable to retrieve game media types from database"
 
         return jsonify(response)
 
