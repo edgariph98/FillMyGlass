@@ -21,7 +21,7 @@ class Create extends Component {
 
   generateContent = () => {
     const tagStyle = { backgroundColor: "red", color: "black" };
-    const divStyle = { marginTop: "2%", marginBottom: "0%" };
+    const divStyle = { marginTop: "2%", marginBottom: "0%", width: "100%" };
     return (
       <div style={{ ...theme }}>
         <Formik
@@ -31,6 +31,7 @@ class Create extends Component {
             "media-name": "",
             "media-type": "",
             players: "",
+            URL: ""
           }}
           validate={(values) => {
             const errors = {};
@@ -58,14 +59,14 @@ class Create extends Component {
           }}
           onSubmit={(game, { resetForm, setSubmitting }) => {
             console.log(game);
-            addGame(game);
-            // .then((res) =>
-            // res.json().then((response) => {
-            //   if (response === -1) {
-            //     alert("Error creating game");
-            //   }
-            //   })
-            // );
+            addGame(game)
+              .then((res) =>
+              res.json().then((response) => {
+                if (response.Response !== 200) {
+                  alert("Error creating game");
+                }
+                })
+              );
             resetForm();
           }}>
           {({
@@ -103,7 +104,7 @@ class Create extends Component {
                   onBlur={handleBlur}
                   value={values["description"]}
                   placeholder='Game Description'
-                  autoSize={{ minRows: 3 }}
+                  autoSize={{ minRows: 7 }}
                 />
               </div>
               {errors["description"] && touched["description"] && (
@@ -148,6 +149,16 @@ class Create extends Component {
               {errors["players"] && touched["players"] && (
                 <Tag style={tagStyle}>{errors["players"]}</Tag>
               )}
+              <div style={divStyle}>
+                <Input
+                  type='URL'
+                  name='URL'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values["URL"]}
+                  placeholder='Game URL'
+                />
+              </div>
               <div style={divStyle}>
                 <Button
                   onClick={() => {

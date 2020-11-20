@@ -4,8 +4,6 @@ import "../css/App.css";
 const theme = {
   margin: "0 auto",
   textAlign: "center",
-  width: "100vw",
-  height: "100vh",
   color: "white",
 };
 
