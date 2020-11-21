@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
 import { Select, Input, Button } from "antd";
 import { Link } from "react-router-dom";
+import ReactPlayer from "react-player"
 import "../css/App.css";
 
 class GameDetails extends Component {
@@ -41,6 +42,7 @@ class GameDetails extends Component {
         </div>
 
         {game["url"] !== "None" && <div>{game["url"]}</div>}
+        {game["url"] !== "None" && <div><ReactPlayer width="100%" url={game["url"]}/></div>}
 
         <div style={{ margin: "3% 0%" }}>
           <Link to='/find'>
