@@ -3,6 +3,59 @@ import { PageContainer } from "../components/PageContainer";
 import { Select, Input, Button } from "antd";
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player"
+import {
+  EmailShareButton,
+  FacebookShareButton,
+  HatenaShareButton,
+  InstapaperShareButton,
+  LineShareButton,
+  LinkedinShareButton,
+  LivejournalShareButton,
+  MailruShareButton,
+  OKShareButton,
+  PinterestShareButton,
+  PocketShareButton,
+  RedditShareButton,
+  TelegramShareButton,
+  TumblrShareButton,
+  TwitterShareButton,
+  ViberShareButton,
+  VKShareButton,
+  WhatsappShareButton,
+  WorkplaceShareButton
+} from "react-share";
+import {
+  EmailIcon,
+  FacebookIcon,
+  FacebookMessengerIcon,
+  HatenaIcon,
+  InstapaperIcon,
+  LineIcon,
+  LinkedinIcon,
+  LivejournalIcon,
+  MailruIcon,
+  OKIcon,
+  PinterestIcon,
+  PocketIcon,
+  RedditIcon,
+  TelegramIcon,
+  TumblrIcon,
+  TwitterIcon,
+  ViberIcon,
+  VKIcon,
+  WeiboIcon,
+  WhatsappIcon,
+  WorkplaceIcon
+} from "react-share";
+import {
+  FacebookShareCount,
+  HatenaShareCount,
+  OKShareCount,
+  PinterestShareCount,
+  RedditShareCount,
+  TumblrShareCount,
+  VKShareCount
+} from "react-share";
 import "../css/App.css";
 
 class GameDetails extends Component {
@@ -42,7 +95,20 @@ class GameDetails extends Component {
         </div>
 
         {game["url"] !== "None" && <div>{game["url"]}</div>}
-        {game["url"] !== "None" && <div><ReactPlayer width="100%" url={game["url"]}/></div>}
+
+        <TwitterShareButton
+          title={"I found this drinking game: " + game["game-name"] + " '" + game["description"] + "' at "}
+          url={"http://FillMyGlass.com"}>
+          <TwitterIcon size={32} round/>
+        </TwitterShareButton>
+
+        <FacebookShareButton
+                url={"http://FillMyGlass.com"}
+                quote={"I found this drinking game: " + game["game-name"] + " '" + game["description"] + "' at http://FillMyGlass.com"}>
+                 <FacebookIcon size={32} round/>
+        </FacebookShareButton>
+
+        {game["url"] !== "None" && game["media-type"] == "Music" && <div><ReactPlayer width="100%" url={game["url"]}/></div>}
 
         <div style={{ margin: "3% 0%" }}>
           <Link to='/find'>
