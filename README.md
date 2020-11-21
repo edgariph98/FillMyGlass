@@ -79,6 +79,8 @@ Installing node_modules
     1. Navigate to 'frontend' folder
     2. npm install
     3. npm install react-player --save
+    4. npm install react-share --save
+    5. npm fund
 ```
 
 Start Frontend React Server
