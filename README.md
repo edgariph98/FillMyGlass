@@ -78,8 +78,9 @@ Installing node_modules
 ```bash
     1. Navigate to 'frontend' folder
     2. npm install
-    3. npm install react-player --save
-    4. npm install react-share --save
+    3. npm install react-rating-stars-component --save
+    4. npm install react-player --save
+    5. npm install react-share --save
 ```
 
 Start Frontend React Server
