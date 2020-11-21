@@ -38,7 +38,7 @@ class GameDetails extends Component {
 
   generateContent = () => {
     const { game } = this.state;
-    const ratingChanged = (newRating) => {console.log(newRating);}; {/* Star Rating Variable */}
+    const ratingChanged = (newRating) => {console.log(newRating);};
 
     return (
       <div style={{ margin: "0 auto", color: "white", textAlign: "center", width: "50%" }}>
@@ -69,7 +69,8 @@ class GameDetails extends Component {
 
         <div> Rate This Game: </div>
 
-        <div style={{ margin: "0% 0% 0% 43%" }}> {/* Star Rating Code - May Or May Not Remove Depending On Final Design*/}
+        {/* Star Rating Code - May Or May Not Remove Depending On Final Design*/}
+        <div style={{ margin: "0% 0% 0% 43%" }}>
           <ReactStars count={5} onChange={ratingChanged} size={24} isHalf={true}
           char={'♛'}
           emptyIcon={<i className="far fa-star"></i>}
