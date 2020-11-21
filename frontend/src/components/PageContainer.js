@@ -160,8 +160,8 @@ export const PageContainer = (props) => {
         </div>
         <Divider />
         <List>
-          {links.map((item) => (
-            <ListItem button key={item.text}>
+          {links.map((item, index) => (
+            <ListItem button key={index}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItem>

@@ -15,7 +15,7 @@ export const App = () => {
         <Route path='/find' component={Find} exact />
         <Route path='/create' component={Create} exact />
         <Route path='/about' component={About} exact />
-        <Route path='/game-details' component={GameDetails} exaxt />
+        <Route path='/game-details' component={GameDetails} exact />
         <Route component={Error} />
       </Switch>
     </main>
