@@ -133,14 +133,22 @@ export const Find = (props) => {
 
     if (localStorage.length > 0) {
       if (localStorage.hasOwnProperty("games")) {
-        hydrateStateWithLocalStorage("games", setGames);
+        let value = localStorage.getItem("games");
+        value = JSON.parse(value);
+        setGames(value);
       }
 
-      if (localStorage.hasOwnProperty("filters"))
-        hydrateStateWithLocalStorage("filters", setFilters);
+      if (localStorage.hasOwnProperty("filters")) {
+        let value = localStorage.getItem("filters");
+        value = JSON.parse(value);
+        setFilters(value);
+      }
 
-      if (localStorage.hasOwnProperty("hasBeenFiltered"))
-        hydrateStateWithLocalStorage("hasBeenFiltered", setHasBeenFiltered);
+      if (localStorage.hasOwnProperty("hasBeenFiltered")) {
+        let value = localStorage.getItem("hasBeenFiltered");
+        value = JSON.parse(value);
+        setHasBeenFiltered(value);
+      }
 
       localStorage.removeItem("games");
       localStorage.removeItem("filters");
@@ -150,8 +158,23 @@ export const Find = (props) => {
       getAllGames()
         .then((res) => res.json())
         .then((resp) => {
-          if (resp.Response === 200) {
+          if (resp.Response === 200 && resp.games !== []) {
             setGames(resp.games);
+          } else {
+            const emptyFilter = {
+              "media-type": "",
+              players: "",
+              keyword: "",
+            };
+            filteredGames(emptyFilter)
+              .then((res) => res.json())
+              .then((resp) => {
+                if (resp.Response === 200) {
+                  setGames(resp.games);
+                } else {
+                  setGames(["No Games to Display"]);
+                }
+              });
           }
         });
     }
@@ -168,17 +191,6 @@ export const Find = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-
-  const hydrateStateWithLocalStorage = (key, setStateFunction) => {
-    let value = localStorage.getItem(key);
-
-    try {
-      value = JSON.parse(value);
-      setStateFunction(value);
-    } catch (e) {
-      setStateFunction(value);
-    }
-  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -227,14 +239,6 @@ export const Find = (props) => {
   };
 
   const clearFilters = (e) => {
-    getAllGames()
-      .then((res) => res.json())
-      .then((resp) => {
-        if (resp.Response === 200) {
-          setGames(resp.games);
-        }
-      });
-
     setFilters({
       "media-type": "",
       players: "",
@@ -242,6 +246,24 @@ export const Find = (props) => {
     });
 
     setHasBeenFiltered(false);
+
+    getAllGames()
+      .then((res) => res.json())
+      .then((resp) => {
+        if (resp.Response === 200 && resp.games !== []) {
+          setGames(resp.games);
+        } else {
+          filteredGames(filters)
+            .then((res) => res.json())
+            .then((resp) => {
+              if (resp.Response === 200) {
+                setGames(resp.games);
+              } else {
+                setGames(["No Games to Display"]);
+              }
+            });
+        }
+      });
   };
 
   const history = useHistory();
@@ -254,7 +276,7 @@ export const Find = (props) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} key='root-div'>
       <CssBaseline />
       <AppBar
         position='fixed'
@@ -274,6 +296,7 @@ export const Find = (props) => {
         </Toolbar>
       </AppBar>
       <Drawer
+        key='drawer'
         className={classes.drawer}
         variant='persistent'
         anchor='left'
@@ -292,8 +315,8 @@ export const Find = (props) => {
         </div>
         <Divider />
         <List>
-          {links.map((item) => (
-            <ListItem button key={item.text}>
+          {links.map((item, index) => (
+            <ListItem button key={index}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItem>
@@ -376,8 +399,8 @@ export const Find = (props) => {
                 <CardActionArea>
                   <Card onClick={() => goToGame(game)}>
                     <CardContent style={{ textAlign: "center" }}>
-                      <Typography style={{ ...theme }}>
-                        <h2>{game["game-name"]}</h2>
+                      <Typography variant='h5' style={{ ...theme }}>
+                        {game["game-name"]}
                       </Typography>
                     </CardContent>
                   </Card>

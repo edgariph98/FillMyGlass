@@ -23,6 +23,10 @@ class Create extends Component {
   }
 
   componentDidMount = () => {
+    this.getAllMediaTypes();
+  };
+
+  getAllMediaTypes = () => {
     getMediaTypes()
       .then((res) => res.json())
       .then((resp) => {
@@ -32,7 +36,7 @@ class Create extends Component {
           alert("Unable to create game currently");
         }
       });
-  };
+  }
 
   generateContent = () => {
     const { mediaTypes } = this.state;
