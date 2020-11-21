@@ -131,29 +131,26 @@ export const Find = (props) => {
   useEffect(() => {
     document.body.style.backgroundColor = "#121725";
 
-    if (localStorage.length > 0) {
-      if (localStorage.hasOwnProperty("games")) {
-        let value = localStorage.getItem("games");
-        value = JSON.parse(value);
-        setGames(value);
-      }
+    if (localStorage.hasOwnProperty("games")) {
+      const value = JSON.parse(localStorage.getItem("games"));
+      setGames(value);
+      localStorage.removeItem("games");
 
       if (localStorage.hasOwnProperty("filters")) {
-        let value = localStorage.getItem("filters");
-        value = JSON.parse(value);
-        setFilters(value);
+        const val = JSON.parse(localStorage.getItem("filters"));
+        setFilters(val);
+        localStorage.removeItem("filters");
       }
 
       if (localStorage.hasOwnProperty("hasBeenFiltered")) {
-        let value = localStorage.getItem("hasBeenFiltered");
-        value = JSON.parse(value);
-        setHasBeenFiltered(value);
+        const val = JSON.parse(localStorage.getItem("hasBeenFiltered"));
+        setHasBeenFiltered(val);
+        localStorage.removeItem("hasBeenFiltered");
       }
 
-      localStorage.removeItem("games");
-      localStorage.removeItem("filters");
-      localStorage.removeItem("hasBeenFiltered");
-      localStorage.removeItem("selectedGame");
+      if (localStorage.hasOwnProperty("selectedGame")) {
+        localStorage.removeItem("selectedGame");
+      }
     } else {
       getAllGames()
         .then((res) => res.json())
@@ -169,7 +166,7 @@ export const Find = (props) => {
             filteredGames(emptyFilter)
               .then((res) => res.json())
               .then((resp) => {
-                if (resp.Response === 200) {
+                if (resp.Response === 200 && resp.games !== []) {
                   setGames(resp.games);
                 } else {
                   setGames(["No Games to Display"]);
@@ -179,13 +176,22 @@ export const Find = (props) => {
         });
     }
 
-    getMediaTypes()
-      .then((res) => res.json())
-      .then((resp) => {
-        if (resp.Response === 200) {
-          setMediaTypes(resp["media-types"]);
-        }
-      });
+    if (localStorage.hasOwnProperty("media-types")) {
+      const value = JSON.parse(localStorage.getItem("media-types"));
+      setMediaTypes(value);
+    } else {
+      getMediaTypes()
+        .then((res) => res.json())
+        .then((resp) => {
+          if (resp.Response === 200 && resp.Response !== []) {
+            localStorage.setItem(
+              "media-types",
+              JSON.stringify(resp["media-types"])
+            );
+            setMediaTypes(resp["media-types"]);
+          }
+        });
+    }
   }, []);
 
   const classes = useStyles();
