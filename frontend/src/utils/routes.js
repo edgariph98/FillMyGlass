@@ -19,3 +19,5 @@ export const addGame = (game) =>
     method: "POST",
     body: JSON.stringify(game),
   });
+
+export const getMediaTypes = () => fetch("games/get/mediatypes");

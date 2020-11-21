@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
 import { Formik } from "formik";
 import { Input, Button, Tag, Select } from "antd";
-import { addGame } from "../utils/routes";
+import { addGame, getMediaTypes } from "../utils/routes";
 import "../css/App.css";
 
 const { TextArea } = Input;
@@ -23,15 +23,15 @@ class Create extends Component {
   }
 
   componentDidMount = () => {
-    // make call to backend to get mediaTypes
-    let mediaTypes = ["Television"]
-    this.setState({
-      ["mediaTypes"]: mediaTypes.map((mediaType, index) => (
-        <Option value={mediaType} key={index}>
-          {mediaType}
-        </Option>
-      )),
-    });
+    getMediaTypes()
+      .then((res) => res.json())
+      .then((resp) => {
+        if (resp.Response === 200) {
+          this.setState({ mediaTypes: resp["media-types"] });
+        } else {
+          alert("Unable to create game currently");
+        }
+      });
   };
 
   generateContent = () => {
@@ -147,11 +147,14 @@ class Create extends Component {
                   name='media-type'
                   style={{ width: "100%", textAlign: "left", margin: "3% 0%" }}
                   onChange={(value) => {
-                    values["media-type"] = value
+                    values["media-type"] = value;
                   }}
-                  placeholder='Media Type' 
-                >
-                  {mediaTypes}
+                  placeholder='Media Type'>
+                  {mediaTypes.map((mediaType, index) => (
+                    <Option value={mediaType} key={index}>
+                      {mediaType}
+                    </Option>
+                  ))}
                 </Select>
               </div>
               {errors["media-type"] && touched["media-type"] && (

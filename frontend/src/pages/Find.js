@@ -1,4 +1,4 @@
-import { getAllGames, filteredGames } from "../utils/routes";
+import { getAllGames, filteredGames, getMediaTypes } from "../utils/routes";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import clsx from "clsx";
@@ -141,6 +141,11 @@ export const Find = (props) => {
 
       if (localStorage.hasOwnProperty("hasBeenFiltered"))
         hydrateStateWithLocalStorage("hasBeenFiltered", setHasBeenFiltered);
+
+      localStorage.removeItem("games");
+      localStorage.removeItem("filters");
+      localStorage.removeItem("hasBeenFiltered");
+      localStorage.removeItem("selectedGame");
     } else {
       getAllGames()
         .then((res) => res.json())
@@ -151,7 +156,13 @@ export const Find = (props) => {
         });
     }
 
-    // make call to backend for mediaTypes
+    getMediaTypes()
+      .then((res) => res.json())
+      .then((resp) => {
+        if (resp.Response === 200) {
+          setMediaTypes(resp["media-types"]);
+        }
+      });
   }, []);
 
   const classes = useStyles();
@@ -304,9 +315,9 @@ export const Find = (props) => {
 
         <div style={{ margin: "0 auto", textAlign: "center", color: "white" }}>
           <Select
-            style={{ margin: "0% 0% 0% 4%", width: "10%" }}
-            value={filters["media-type"]}
+            style={{ margin: "0% 0% 0% 4%", width: "15%" }}
             onChange={handleFilterMediaTypeChange}
+            value={filters["media-type"] || null}
             placeholder='Filter by Media Type'>
             {mediaTypes.map((mediaType, index) => (
               <Option value={mediaType} key={index}>
