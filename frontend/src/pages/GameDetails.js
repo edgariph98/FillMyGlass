@@ -2,6 +2,17 @@ import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
 import { Select, Input, Button } from "antd";
 import { Link } from "react-router-dom";
+import ReactPlayer from "react-player"
+import ReactStars from "react-rating-stars-component";
+import { render } from "react-dom";
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+} from "react-share";
+import {
+  FacebookIcon,
+  TwitterIcon,
+} from "react-share";
 import "../css/App.css";
 
 class GameDetails extends Component {
@@ -27,6 +38,8 @@ class GameDetails extends Component {
 
   generateContent = () => {
     const { game } = this.state;
+    const ratingChanged = (newRating) => {console.log(newRating);};
+
     return (
       <div style={{ margin: "0 auto", color: "white", textAlign: "center", width: "50%" }}>
         <div style={{ margin: "1% 0%" }}>
@@ -41,6 +54,33 @@ class GameDetails extends Component {
         </div>
 
         {game["url"] !== "None" && <div>{game["url"]}</div>}
+
+        <TwitterShareButton
+          title={"I found this drinking game: " + game["game-name"] + " '" + game["description"] + "' at "}
+          url={"http://FillMyGlass.com"}>
+          <TwitterIcon size={32} round/>
+        </TwitterShareButton>
+
+        <FacebookShareButton
+                url={"http://FillMyGlass.com"}
+                quote={"I found this drinking game: " + game["game-name"] + " '" + game["description"] + "' at http://FillMyGlass.com"}>
+                 <FacebookIcon size={32} round/>
+        </FacebookShareButton>
+
+        <div> Rate This Game: </div>
+
+        {/* Star Rating Code - May Or May Not Remove Depending On Final Design*/}
+        <div style={{ margin: "0% 0% 0% 43%" }}>
+          <ReactStars count={5} onChange={ratingChanged} size={24} isHalf={true}
+          char={'♛'}
+          emptyIcon={<i className="far fa-star"></i>}
+          halfIcon={<i className="fa fa-star-half-alt"></i>}
+          fullIcon={<i className="fa fa-star"></i>}
+          activeColor="#ffd700"
+          />
+        </div>
+
+        {game["url"] !== "None" && game["media-type"] === "Music" && <div><ReactPlayer width="100%" url={game["url"]}/></div>}
 
         <div style={{ margin: "3% 0%" }}>
           <Link to='/find'>
