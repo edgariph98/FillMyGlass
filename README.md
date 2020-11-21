@@ -78,6 +78,7 @@ Installing node_modules
 ```bash
     1. Navigate to 'frontend' folder
     2. npm install
+    3. npm install react-player --save
 ```
 
 Start Frontend React Server
