@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from .Modules import PostgresConnector
+import json
 
 def create_app():
     database_conn = PostgresConnector()
@@ -11,8 +12,9 @@ def create_app():
         response = {}
         try:
             game = request.get_json()
-            print(game)
-            database_conn.submitGame(game["game-name"], game["media-name"],game["media-type"], game["description"],game["players"], game["URL"])
+            print("New Request:",end="")
+            print(json.dumps(game,indent=4))
+            database_conn.submitGame(game["game-name"], game["media-name"],game["media-type"], game["description"],game["players"], game["url"],game["imageURL"])
             response["Response"] = 200
             response["Description"] = "New Game Submitted"
 

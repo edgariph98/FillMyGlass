@@ -11,7 +11,7 @@ class PostgresConnector:
         self.cursor = self.conn.cursor()
     #executing query and returning value if we want to read it
     def executeQuery(self, query, read):
-        result = None
+        result = None   
         self.cursor.execute(query)
         if read:
             result = self.cursor.fetchall()
@@ -19,14 +19,14 @@ class PostgresConnector:
         self.conn.commit()
         return result
     #game submission to database
-    def submitGame(self, gameName,media_name, media_type, game_rules, players, url):
+    def submitGame(self, gameName,media_name, media_type, game_rules, players, url, imageURL):
         gameName = self.parseStringArgument(gameName)
         media_name = self.parseStringArgument(media_name)
         game_rules = self.parseStringArgument(game_rules)
-        query = """INSERT INTO "Games" ("game_name","media_name","media_type","game_rules","players", "url") 
-                    VALUES (\'{}\', \'{}\', \'{}\', \'{}\', {},\'{}\'); """
-        query = query.format(gameName, media_name, media_type, game_rules, players, url)
-        print(query)
+        query = """INSERT INTO "Games" ("game_name","media_name","media_type","game_rules","players", "url","image_url") 
+                    VALUES (\'{}\', \'{}\', \'{}\', \'{}\', {},\'{}\', \'{}\'); """
+        query = query.format(gameName, media_name, media_type, game_rules, players, url,imageURL)
+        #print(query)
         self.executeQuery(query,False)
 
     
@@ -43,6 +43,7 @@ class PostgresConnector:
             game["description"] = row[4]
             game["players"] = row[5]
             game["url"] = row[6] if row[6] else "None"
+            game["imageURL"] = row[7] if row[7] else "None"
             gameList.append(game)
             #print(row)
         return gameList
@@ -86,7 +87,7 @@ class PostgresConnector:
                         WHERE "players" >= {};"""
             query = query.format(players)
         games = self.executeQuery(query, True)
-        print(query)
+        #print(query)
         for row in games:
             game = {}
             game["game-name"] = row[1]
@@ -95,6 +96,7 @@ class PostgresConnector:
             game["description"] = row[4]
             game["players"] = row[5]
             game["url"] = row[6] if row[6] else "None"
+            game["imageURL"] = row[7] if row[7] else "None"
             gameList.append(game)
 
         return gameList
@@ -106,6 +108,7 @@ class PostgresConnector:
         query = """SELECT DISTINCT media_type FROM "Games";"""
 
         rows = self.executeQuery(query,True)
+
         media_types =[]
         for row in rows:
             media_types.append(row[0])
