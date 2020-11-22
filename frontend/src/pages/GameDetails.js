@@ -42,7 +42,7 @@ class GameDetails extends Component {
     const ratingChanged = (newRating) => {console.log(newRating);};
 
     return (
-      <div style={{ margin: "0 auto", color: "white", textAlign: "center", width: "50%" }}>
+      <div style={{ margin: "0 auto", color: "white", textAlign: "center", width: "50%"}}>
         <div style={{ margin: "1% 0%" }}>
           <h1 style={{ color: "white" }}>{game["game-name"]}</h1>
         </div>
@@ -54,7 +54,7 @@ class GameDetails extends Component {
           {game["description"]}
         </div>
 
-        {game["url"] !== "None" && <div>{game["url"]}</div>}
+        {game["url"] !== "None" && <div><a href={game["url"]}>Link To Game</a></div>}
 
         <TwitterShareButton
           title={"I found this drinking game: " + game["game-name"] + " '" + game["description"] + "' at "}
