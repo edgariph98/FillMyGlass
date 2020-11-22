@@ -49,12 +49,12 @@ class GameDetails extends Component {
 
         <div>Minimum Number of Players: {game["players"]}</div>
 
-        <div style={{ margin: "3% 0%" }}>
+        <div style={{ margin: "8% 0%" }}>
           <h2 style={{ color: "white" }}>How To Play</h2>
           {game["description"]}
         </div>
 
-        {game["url"] !== "None" && <div><a href={game["url"]}>Link To Game</a></div>}
+        {game["url"] !== "None" && <div style={{ margin: "0% 0% 5% 0%" }}><a href={game["url"]}>Link To Game</a></div>}
 
         <TwitterShareButton
           title={"I found this drinking game: " + game["game-name"] + " '" + game["description"] + "' at "}
