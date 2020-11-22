@@ -41,7 +41,7 @@ class Create extends Component {
   generateContent = () => {
     const { mediaTypes } = this.state;
     const tagStyle = { backgroundColor: "red", color: "black" };
-    const divStyle = { margin: "0 auto", width: "60%" };
+    const divStyle = { margin: "0 auto", width: "50%" };
 
     return (
       <div style={{ ...theme }}>
@@ -52,7 +52,8 @@ class Create extends Component {
             "media-name": "",
             "media-type": "",
             players: "",
-            URL: "",
+            "url": "",
+            "imageURL": ""
           }}
           validate={(values) => {
             const errors = {};
@@ -126,7 +127,7 @@ class Create extends Component {
                   value={values["description"]}
                   placeholder='Game Description'
                   autoSize={{ minRows: 3 }}
-                  style={{ margin: "3% 0%" }}
+                  style={{ margin: "3% 0% 0% 0%" }}
                 />
               </div>
               {errors["description"] && touched["description"] && (
@@ -140,6 +141,7 @@ class Create extends Component {
                   onBlur={handleBlur}
                   value={values["media-name"]}
                   placeholder='Media Name'
+                  style={{ margin: "3% 0% 0% 0%" }}
                 />
               </div>
               {errors["media-name"] && touched["media-name"] && (
@@ -149,7 +151,7 @@ class Create extends Component {
                 <Select
                   type='media-type'
                   name='media-type'
-                  style={{ width: "100%", textAlign: "left", margin: "3% 0%" }}
+                  style={{ width: "100%", textAlign: "left", margin: "3% 0% 0% 0%" }}
                   onChange={(value) => {
                     values["media-type"] = value;
                   }}
@@ -172,6 +174,7 @@ class Create extends Component {
                   onBlur={handleBlur}
                   value={values["players"]}
                   placeholder='Number of Players'
+                  style={{ margin: "3% 0% 0% 0%" }}
                 />
               </div>
               {errors["players"] && touched["players"] && (
@@ -179,13 +182,24 @@ class Create extends Component {
               )}
               <div style={divStyle}>
                 <Input
-                  type='URL'
-                  name='URL'
+                  type='url'
+                  name='url'
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  value={values["URL"]}
+                  value={values["url"]}
                   placeholder='Game URL'
-                  style={{ margin: "3% 0%" }}
+                  style={{ margin: "3% 0% 0% 0%" }}
+                />
+              </div>
+              <div style={divStyle}>
+                <Input
+                  type='imageURL'
+                  name='imageURL'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values["imageURL"]}
+                  placeholder='Image URL'
+                  style={{ margin: "3% 0% 0% 0%" }}
                 />
               </div>
               <div style={divStyle}>
@@ -195,7 +209,9 @@ class Create extends Component {
                   }}
                   type='primary'
                   block
-                  disabled={isSubmitting || (touched && !isValid)}>
+                  disabled={isSubmitting || (!isValid)}
+                  style={{ margin: "3% 0% 0% 0%" }}
+                >
                   Submit Game
                 </Button>
               </div>

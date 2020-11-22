@@ -31,32 +31,26 @@ import "../css/App.css";
 import "../fonts/Lato-Regular.ttf";
 import "../css/BasicStyles.css";
 import Button from "@material-ui/core/Button";
-import CardMedia from '@material-ui/core/CardMedia';
+import CardMedia from "@material-ui/core/CardMedia";
 
 const { TextArea } = Input;
 const { Option } = Select;
 
 const links = [
   {
-    icon: (
-      <Search />
-    ),
-    text: 'Find Game',
-    link: '/find'
+    icon: <Search />,
+    text: "Find Game",
+    link: "/find",
   },
   {
-    icon: (
-      <Create />
-    ),
-    text: 'Create Game',
-    link: '/create'
+    icon: <Create />,
+    text: "Create Game",
+    link: "/create",
   },
   {
-    icon: (
-      <Info />
-    ),
-    text: 'About',
-    link: '/about'
+    icon: <Info />,
+    text: "About",
+    link: "/about",
   },
 ];
 
@@ -122,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
 export const Find = (props) => {
   const [games, setGames] = useState([]);
   const [filters, setFilters] = useState({
-    "media-type": "",
+    "media-type": null,
     players: "",
     keyword: "",
   });
@@ -167,7 +161,7 @@ export const Find = (props) => {
             filteredGames(emptyFilter)
               .then((res) => res.json())
               .then((resp) => {
-                if (resp.Response === 200 && resp.games !== []) {
+                if (resp.Response === 200) {
                   setGames(resp.games);
                 } else {
                   setGames(["No Games to Display"]);
@@ -177,23 +171,13 @@ export const Find = (props) => {
         });
     }
 
-    if (localStorage.hasOwnProperty("media-types")) {
-      const value = JSON.parse(localStorage.getItem("media-types"));
-      setMediaTypes(value);
-    } else {
-      getMediaTypes()
-        .then((res) => res.json())
-        .then((resp) => {
-          if (resp.Response === 200 && resp.Response !== []) {
-            localStorage.setItem(
-              "media-types",
-              JSON.stringify(resp["media-types"])
-            );
-            setMediaTypes(resp["media-types"]);
-          }
-        });
-    }
-
+    getMediaTypes()
+      .then((res) => res.json())
+      .then((resp) => {
+        if (resp.Response === 200) {
+          setMediaTypes(resp["media-types"]);
+        }
+      });
   }, []);
 
   const classes = useStyles();
@@ -248,7 +232,7 @@ export const Find = (props) => {
 
   const clearFilters = (e) => {
     setFilters({
-      "media-type": "",
+      "media-type": null,
       players: "",
       keyword: "",
     });
@@ -324,7 +308,7 @@ export const Find = (props) => {
         <Divider />
         <List>
           {links.map((item, index) => (
-            <Link to={item.link}>
+            <Link to={item.link} key={index}>
               <ListItem button key={index}>
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
@@ -350,8 +334,9 @@ export const Find = (props) => {
           <Select
             style={{ margin: "0% 0% 0% 4%", width: "15%" }}
             onChange={handleFilterMediaTypeChange}
-            value={filters["media-type"] || null}
-            placeholder='Filter by Media Type'>
+            value={filters["media-type"]}
+            placeholder='Filter by Media Type'
+          >
             {mediaTypes.map((mediaType, index) => (
               <Option value={mediaType} key={index}>
                 {mediaType}
@@ -369,7 +354,7 @@ export const Find = (props) => {
 
         <div style={{ margin: "2% 0% ", textAlign: "center", color: "white" }}>
           <TextArea
-            className="oval-searchBar"
+            className='oval-searchBar'
             style={{ width: "20%" }}
             value={filters["keyword"]}
             onChange={handleFilterKeywordChange}
@@ -383,7 +368,9 @@ export const Find = (props) => {
             textAlign: "center",
             color: "white",
           }}>
-          <Button class="oval-button" onClick={handleFilter}>Filter</Button>
+          <Button class='oval-button' onClick={handleFilter}>
+            Filter
+          </Button>
         </div>
 
         {hasBeenFiltered && (
@@ -393,7 +380,9 @@ export const Find = (props) => {
               textAlign: "center",
               color: "white",
             }}>
-            <Button class="oval-button" onClick={clearFilters}>Clear Filters</Button>
+            <Button class='oval-button' onClick={clearFilters}>
+              Clear Filters
+            </Button>
           </div>
         )}
 
@@ -409,12 +398,12 @@ export const Find = (props) => {
               <GridListTile key={index} cols={1}>
                 <CardActionArea>
                   <Card onClick={() => goToGame(game)}>
-                  <CardMedia
-                    component="img"
-                    alt= {game["game-name"]}
-                    height="300"
-                    image=""
-                    title="Contemplative Reptile"
+                    <CardMedia
+                      component='img'
+                      alt={game["game-name"]}
+                      height='300'
+                      image={game["imageURL"]}
+                      title={game["game-name"]}
                     />
                     <CardContent style={{ textAlign: "center" }}>
                       <Typography variant='h5' style={{ ...theme }}>
