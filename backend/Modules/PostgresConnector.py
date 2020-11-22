@@ -43,6 +43,7 @@ class PostgresConnector:
             game["description"] = row[4]
             game["players"] = row[5]
             game["url"] = row[6] if row[6] else "None"
+            game["imageURL"] = row[7] if row[7] else "None"
             gameList.append(game)
             #print(row)
         return gameList
@@ -95,6 +96,7 @@ class PostgresConnector:
             game["description"] = row[4]
             game["players"] = row[5]
             game["url"] = row[6] if row[6] else "None"
+            game["imageURL"] = row[7] if row[7] else "None"
             gameList.append(game)
 
         return gameList
@@ -106,7 +108,7 @@ class PostgresConnector:
         query = """SELECT DISTINCT media_type FROM "Games";"""
 
         rows = self.executeQuery(query,True)
-        
+
         media_types =[]
         for row in rows:
             media_types.append(row[0])
