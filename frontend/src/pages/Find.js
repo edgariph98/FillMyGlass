@@ -267,6 +267,17 @@ export const Find = (props) => {
     history.push("/game-details");
   };
 
+  const noImage = {
+    Movie:
+      "https://cdn.cherwell.org/wp-content/uploads/2016/11/09111153/IMG_0243.jpg",
+    Game:
+      "https://upload.wikimedia.org/wikipedia/commons/7/78/Gaming_Section_1_-_Retrosystems_2010.jpg",
+    Music:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Chicago_Pride_Parade_1985_033.jpg/1280px-Chicago_Pride_Parade_1985_033.jpg",
+    "TV Show":
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/SMPTE_Color_Bars.svg/1280px-SMPTE_Color_Bars.svg.png",
+  };
+
   return (
     <div className={classes.root} key='root-div'>
       <CssBaseline />
@@ -335,8 +346,7 @@ export const Find = (props) => {
             style={{ margin: "0% 0% 0% 4%", width: "15%" }}
             onChange={handleFilterMediaTypeChange}
             value={filters["media-type"]}
-            placeholder='Filter by Media Type'
-          >
+            placeholder='Filter by Media Type'>
             {mediaTypes.map((mediaType, index) => (
               <Option value={mediaType} key={index}>
                 {mediaType}
@@ -398,13 +408,24 @@ export const Find = (props) => {
               <GridListTile key={index} cols={1}>
                 <CardActionArea>
                   <Card onClick={() => goToGame(game)}>
-                    <CardMedia
-                      component='img'
-                      alt={game["game-name"]}
-                      height='300'
-                      image={game["imageURL"]}
-                      title={game["game-name"]}
-                    />
+                    {game["imageURL"] !== "None" && (
+                      <CardMedia
+                        component='img'
+                        alt={game["game-name"]}
+                        height='300'
+                        image={game["imageURL"]}
+                        title={game["game-name"]}
+                      />
+                    )}
+                    {game["imageURL"] === "None" && (
+                      <CardMedia
+                        component='img'
+                        alt={game["game-name"]}
+                        height='300'
+                        image={noImage[game["media-type"]]}
+                        title={game["game-name"]}
+                      />
+                    )}
                     <CardContent style={{ textAlign: "center" }}>
                       <Typography variant='h5' style={{ ...theme }}>
                         {game["game-name"]}
