@@ -23,29 +23,27 @@ import "../css/App.css";
 const links = [
   {
     icon: (
-      <Link to='/find'>
-        <Search />
-      </Link>
+      <Search />
     ),
-    text: <Link to='/find'>Find Game</Link>,
+    text: 'Find Game',
+    link: '/find'
   },
   {
     icon: (
-      <Link to='/create'>
-        <Create />
-      </Link>
+      <Create />
     ),
-    text: <Link to='/create'>Create Game</Link>,
+    text: 'Create Game',
+    link: '/create'
   },
   {
     icon: (
-      <Link to='/about'>
-        <Info />
-      </Link>
+      <Info />
     ),
-    text: <Link to='/about'>About</Link>,
+    text: 'About',
+    link: '/about'
   },
 ];
+
 
 const drawerWidth = 240;
 
@@ -161,10 +159,12 @@ export const PageContainer = (props) => {
         <Divider />
         <List>
           {links.map((item, index) => (
-            <ListItem button key={index}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItem>
+            <Link to={item.link}>
+              <ListItem button key={index}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Drawer>
