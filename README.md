@@ -78,6 +78,9 @@ Installing node_modules
 ```bash
     1. Navigate to 'frontend' folder
     2. npm install
+    3. npm install react-rating-stars-component --save
+    4. npm install react-player --save
+    5. npm install react-share --save
 ```
 
 Start Frontend React Server
@@ -87,7 +90,7 @@ Start Frontend React Server
     2. npm start
 ```
 
-If `npm start` gives you an error “npm ERR! code ELIFECYCLE...” do `npm cache clean --force` then `npm install` again and if it asks you to, do `npm audit fix` and `npm fund`. Now you can try `npm start` again.
+If `npm start` gives you an error “npm ERR! code ELIFECYCLE...” do `npm cache clean --force` then `npm install` again and if it asks you to, do `npm audit fix`. Now you can try `npm start` again.
 
 ```
     3. Navigate to localhost:3000

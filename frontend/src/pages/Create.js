@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
 import { Formik } from "formik";
-import { Input, Button, Tag } from "antd";
-import { addGame } from "../utils/routes";
+import { Input, Button, Tag, Select } from "antd";
+import { addGame, getMediaTypes } from "../utils/routes";
 import "../css/App.css";
 
 const { TextArea } = Input;
+const { Option } = Select;
 
 const theme = {
   margin: "0 auto",
@@ -16,12 +17,32 @@ class Create extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      mediaTypes: [],
+    };
+  }
+
+  componentDidMount = () => {
+    this.getAllMediaTypes();
+  };
+
+  getAllMediaTypes = () => {
+    getMediaTypes()
+      .then((res) => res.json())
+      .then((resp) => {
+        if (resp.Response === 200) {
+          this.setState({ mediaTypes: resp["media-types"] });
+        } else {
+          alert("Unable to create game currently");
+        }
+      });
   }
 
   generateContent = () => {
+    const { mediaTypes } = this.state;
     const tagStyle = { backgroundColor: "red", color: "black" };
-    const divStyle = { marginTop: "2%", marginBottom: "0%" };
+    const divStyle = { margin: "0 auto", width: "60%" };
+
     return (
       <div style={{ ...theme }}>
         <Formik
@@ -31,6 +52,7 @@ class Create extends Component {
             "media-name": "",
             "media-type": "",
             players: "",
+            URL: "",
           }}
           validate={(values) => {
             const errors = {};
@@ -50,22 +72,22 @@ class Create extends Component {
               errors["media-type"] = "Media Type Required";
             }
 
-            if (!values["players"]) {
-              errors["players"] = "Number of Players Required";
+            if (!/^\d*[1-9]\d*$/.test(values["players"])) {
+              errors["players"] = "Please enter a number greater than zero";
             }
 
             return errors;
           }}
           onSubmit={(game, { resetForm, setSubmitting }) => {
-            console.log(game);
-            addGame(game);
-            // .then((res) =>
-            // res.json().then((response) => {
-            //   if (response === -1) {
-            //     alert("Error creating game");
-            //   }
-            //   })
-            // );
+            addGame(game).then((res) =>
+              res.json().then((response) => {
+                if (response.Response !== 200) {
+                  alert("Error creating game");
+                } else {
+                  alert("Game created successfully!");
+                }
+              })
+            );
             resetForm();
           }}>
           {({
@@ -104,6 +126,7 @@ class Create extends Component {
                   value={values["description"]}
                   placeholder='Game Description'
                   autoSize={{ minRows: 3 }}
+                  style={{ margin: "3% 0%" }}
                 />
               </div>
               {errors["description"] && touched["description"] && (
@@ -123,14 +146,20 @@ class Create extends Component {
                 <Tag style={tagStyle}>{errors["media-name"]}</Tag>
               )}
               <div style={divStyle}>
-                <Input
+                <Select
                   type='media-type'
                   name='media-type'
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values["media-type"]}
-                  placeholder='Media Type'
-                />
+                  style={{ width: "100%", textAlign: "left", margin: "3% 0%" }}
+                  onChange={(value) => {
+                    values["media-type"] = value;
+                  }}
+                  placeholder='Media Type'>
+                  {mediaTypes.map((mediaType, index) => (
+                    <Option value={mediaType} key={index}>
+                      {mediaType}
+                    </Option>
+                  ))}
+                </Select>
               </div>
               {errors["media-type"] && touched["media-type"] && (
                 <Tag style={tagStyle}>{errors["media-type"]}</Tag>
@@ -148,6 +177,17 @@ class Create extends Component {
               {errors["players"] && touched["players"] && (
                 <Tag style={tagStyle}>{errors["players"]}</Tag>
               )}
+              <div style={divStyle}>
+                <Input
+                  type='URL'
+                  name='URL'
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values["URL"]}
+                  placeholder='Game URL'
+                  style={{ margin: "3% 0%" }}
+                />
+              </div>
               <div style={divStyle}>
                 <Button
                   onClick={() => {
