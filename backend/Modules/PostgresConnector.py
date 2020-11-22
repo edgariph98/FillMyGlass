@@ -19,14 +19,14 @@ class PostgresConnector:
         self.conn.commit()
         return result
     #game submission to database
-    def submitGame(self, gameName,media_name, media_type, game_rules, players, url):
+    def submitGame(self, gameName,media_name, media_type, game_rules, players, url, imageURL):
         gameName = self.parseStringArgument(gameName)
         media_name = self.parseStringArgument(media_name)
         game_rules = self.parseStringArgument(game_rules)
-        query = """INSERT INTO "Games" ("game_name","media_name","media_type","game_rules","players", "url") 
-                    VALUES (\'{}\', \'{}\', \'{}\', \'{}\', {},\'{}\'); """
-        query = query.format(gameName, media_name, media_type, game_rules, players, url)
-        print(query)
+        query = """INSERT INTO "Games" ("game_name","media_name","media_type","game_rules","players", "url","image_url") 
+                    VALUES (\'{}\', \'{}\', \'{}\', \'{}\', {},\'{}\', \'{}\'); """
+        query = query.format(gameName, media_name, media_type, game_rules, players, url,imageURL)
+        #print(query)
         self.executeQuery(query,False)
 
     
@@ -87,7 +87,7 @@ class PostgresConnector:
                         WHERE "players" >= {};"""
             query = query.format(players)
         games = self.executeQuery(query, True)
-        print(query)
+        #print(query)
         for row in games:
             game = {}
             game["game-name"] = row[1]
