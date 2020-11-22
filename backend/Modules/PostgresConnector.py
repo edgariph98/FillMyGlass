@@ -11,7 +11,7 @@ class PostgresConnector:
         self.cursor = self.conn.cursor()
     #executing query and returning value if we want to read it
     def executeQuery(self, query, read):
-        result = None
+        result = None   
         self.cursor.execute(query)
         if read:
             result = self.cursor.fetchall()
@@ -106,6 +106,7 @@ class PostgresConnector:
         query = """SELECT DISTINCT media_type FROM "Games";"""
 
         rows = self.executeQuery(query,True)
+        
         media_types =[]
         for row in rows:
             media_types.append(row[0])
