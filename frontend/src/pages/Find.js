@@ -26,7 +26,7 @@ import GridListTile from "@material-ui/core/GridListTile";
 import Typography from "@material-ui/core/Typography";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import { Select, Input, Button } from "antd";
+import { Select, Input } from "antd";
 import "../css/App.css";
 import "../fonts/Lato-Regular.ttf";
 import Button from "@material-ui/core/Button";

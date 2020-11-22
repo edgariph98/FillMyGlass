@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
-import { Select, Input, Button } from "antd";
+import { Button } from "antd";
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player"
 import ReactStars from "react-rating-stars-component";
-import { render } from "react-dom";
+
 import {
   FacebookShareButton,
   TwitterShareButton,
 } from "react-share";
+
 import {
   FacebookIcon,
   TwitterIcon,
