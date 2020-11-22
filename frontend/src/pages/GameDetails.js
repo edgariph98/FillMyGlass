@@ -2,17 +2,19 @@ import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-import ReactPlayer from "react-player"
+import ReactPlayer from "react-player";
 import ReactStars from "react-rating-stars-component";
 
 import {
   FacebookShareButton,
   TwitterShareButton,
+  EmailShareButton
 } from "react-share";
 
 import {
   FacebookIcon,
   TwitterIcon,
+  EmailIcon
 } from "react-share";
 import "../css/App.css";
 
@@ -59,20 +61,26 @@ class GameDetails extends Component {
         <TwitterShareButton
           title={"I found this drinking game: " + game["game-name"] + " '" + game["description"] + "' at "}
           url={"http://FillMyGlass.com"}>
-          <TwitterIcon size={32} round/>
+          <TwitterIcon size={36} round/>
         </TwitterShareButton>
 
         <FacebookShareButton
                 url={"http://FillMyGlass.com"}
                 quote={"I found this drinking game: " + game["game-name"] + " '" + game["description"] + "' at http://FillMyGlass.com"}>
-                 <FacebookIcon size={32} round/>
+                 <FacebookIcon size={36} round/>
         </FacebookShareButton>
+
+        <EmailShareButton
+          subject={"Check Out This Drinking Game!"}
+          body={"I found this drinking game: " + game["game-name"] + " '" + game["description"] + "' at http://FillMyGlass.com"}>
+          <EmailIcon size={36} round/>
+        </EmailShareButton>
 
         <div> Rate This Game: </div>
 
         {/* Star Rating Code - May Or May Not Remove Depending On Final Design*/}
-        <div style={{ margin: "0% 0% 0% 43%" }}>
-          <ReactStars count={5} onChange={ratingChanged} size={24} isHalf={true}
+        <div style={{ margin: "0% 0% 0% 40%" }}>
+          <ReactStars count={5} onChange={ratingChanged} size={36} isHalf={true}
           char={'♛'}
           emptyIcon={<i className="far fa-star"></i>}
           halfIcon={<i className="fa fa-star-half-alt"></i>}
