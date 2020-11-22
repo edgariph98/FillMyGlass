@@ -1,14 +1,17 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
 import HomePageContainer from "../components/HomePageContainer";
+import "../css/BasicStyles.css";
 
 export const Home = () => (
   <HomePageContainer>
     <div>
-      <h2 style={{ color: "white" }}>Are You 21+?</h2>
-      <Button variant='contained'>
-        <Link to='/find'>Yes</Link>
+      <h4 style={{color: "white"}}>You must be of legal drinking age to access this Site. <br></br>
+      Fill My Cup does not sell or serve alcohol to persons under the age of 21.<br></br>
+      By accessing Fill My Cup Site, you swear and affirm that you are over the age of 21.</h4>
+      <h2 style={{color: "white"}}>Are You 21+?</h2>
+      <Button class="oval-button" variant='contained' href='/find'>
+        Yes
       </Button>
     </div>
   </HomePageContainer>

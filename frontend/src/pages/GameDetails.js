@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { PageContainer } from "../components/PageContainer";
-import { Select, Input, Button } from "antd";
+import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import ReactPlayer from "react-player"
 import ReactStars from "react-rating-stars-component";
-import { render } from "react-dom";
+
 import {
   FacebookShareButton,
   TwitterShareButton,
 } from "react-share";
+
 import {
   FacebookIcon,
   TwitterIcon,
@@ -41,7 +42,7 @@ class GameDetails extends Component {
     const ratingChanged = (newRating) => {console.log(newRating);};
 
     return (
-      <div style={{ margin: "0 auto", color: "white", textAlign: "center", width: "50%" }}>
+      <div style={{ margin: "0 auto", color: "white", textAlign: "center", width: "50%"}}>
         <div style={{ margin: "1% 0%" }}>
           <h1 style={{ color: "white" }}>{game["game-name"]}</h1>
         </div>
@@ -53,7 +54,7 @@ class GameDetails extends Component {
           {game["description"]}
         </div>
 
-        {game["url"] !== "None" && <div>{game["url"]}</div>}
+        {game["url"] !== "None" && <div><a href={game["url"]}>Link To Game</a></div>}
 
         <TwitterShareButton
           title={"I found this drinking game: " + game["game-name"] + " '" + game["description"] + "' at "}
@@ -84,7 +85,7 @@ class GameDetails extends Component {
 
         <div style={{ margin: "3% 0%" }}>
           <Link to='/find'>
-            <Button>Back to Find Games</Button>
+            <Button class="oval-button">Back to Find Games</Button>
           </Link>
         </div>
       </div>

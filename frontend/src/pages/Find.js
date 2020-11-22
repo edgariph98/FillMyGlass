@@ -26,8 +26,12 @@ import GridListTile from "@material-ui/core/GridListTile";
 import Typography from "@material-ui/core/Typography";
 import CardActionArea from "@material-ui/core/CardActionArea";
 import CardContent from "@material-ui/core/CardContent";
-import { Select, Input, Button } from "antd";
+import { Select, Input } from "antd";
 import "../css/App.css";
+import "../fonts/Lato-Regular.ttf";
+import "../css/BasicStyles.css";
+import Button from "@material-ui/core/Button";
+import CardMedia from '@material-ui/core/CardMedia';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -35,27 +39,24 @@ const { Option } = Select;
 const links = [
   {
     icon: (
-      <Link to='/find'>
-        <Search />
-      </Link>
+      <Search />
     ),
-    text: <Link to='/find'>Find Game</Link>,
+    text: 'Find Game',
+    link: '/find'
   },
   {
     icon: (
-      <Link to='/create'>
-        <Create />
-      </Link>
+      <Create />
     ),
-    text: <Link to='/create'>Create Game</Link>,
+    text: 'Create Game',
+    link: '/create'
   },
   {
     icon: (
-      <Link to='/about'>
-        <Info />
-      </Link>
+      <Info />
     ),
-    text: <Link to='/about'>About</Link>,
+    text: 'About',
+    link: '/about'
   },
 ];
 
@@ -131,54 +132,73 @@ export const Find = (props) => {
   useEffect(() => {
     document.body.style.backgroundColor = "#121725";
 
-    if (localStorage.length > 0) {
-      if (localStorage.hasOwnProperty("games")) {
-        hydrateStateWithLocalStorage("games", setGames);
+    if (localStorage.hasOwnProperty("games")) {
+      const value = JSON.parse(localStorage.getItem("games"));
+      setGames(value);
+      localStorage.removeItem("games");
+
+      if (localStorage.hasOwnProperty("filters")) {
+        const val = JSON.parse(localStorage.getItem("filters"));
+        setFilters(val);
+        localStorage.removeItem("filters");
       }
 
-      if (localStorage.hasOwnProperty("filters"))
-        hydrateStateWithLocalStorage("filters", setFilters);
+      if (localStorage.hasOwnProperty("hasBeenFiltered")) {
+        const val = JSON.parse(localStorage.getItem("hasBeenFiltered"));
+        setHasBeenFiltered(val);
+        localStorage.removeItem("hasBeenFiltered");
+      }
 
-      if (localStorage.hasOwnProperty("hasBeenFiltered"))
-        hydrateStateWithLocalStorage("hasBeenFiltered", setHasBeenFiltered);
-
-      localStorage.removeItem("games");
-      localStorage.removeItem("filters");
-      localStorage.removeItem("hasBeenFiltered");
-      localStorage.removeItem("selectedGame");
+      if (localStorage.hasOwnProperty("selectedGame")) {
+        localStorage.removeItem("selectedGame");
+      }
     } else {
       getAllGames()
         .then((res) => res.json())
         .then((resp) => {
-          if (resp.Response === 200) {
+          if (resp.Response === 200 && resp.games !== []) {
             setGames(resp.games);
+          } else {
+            const emptyFilter = {
+              "media-type": "",
+              players: "",
+              keyword: "",
+            };
+            filteredGames(emptyFilter)
+              .then((res) => res.json())
+              .then((resp) => {
+                if (resp.Response === 200 && resp.games !== []) {
+                  setGames(resp.games);
+                } else {
+                  setGames(["No Games to Display"]);
+                }
+              });
           }
         });
     }
 
-    getMediaTypes()
-      .then((res) => res.json())
-      .then((resp) => {
-        if (resp.Response === 200) {
-          setMediaTypes(resp["media-types"]);
-        }
-      });
+    if (localStorage.hasOwnProperty("media-types")) {
+      const value = JSON.parse(localStorage.getItem("media-types"));
+      setMediaTypes(value);
+    } else {
+      getMediaTypes()
+        .then((res) => res.json())
+        .then((resp) => {
+          if (resp.Response === 200 && resp.Response !== []) {
+            localStorage.setItem(
+              "media-types",
+              JSON.stringify(resp["media-types"])
+            );
+            setMediaTypes(resp["media-types"]);
+          }
+        });
+    }
+
   }, []);
 
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-
-  const hydrateStateWithLocalStorage = (key, setStateFunction) => {
-    let value = localStorage.getItem(key);
-
-    try {
-      value = JSON.parse(value);
-      setStateFunction(value);
-    } catch (e) {
-      setStateFunction(value);
-    }
-  };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -227,14 +247,6 @@ export const Find = (props) => {
   };
 
   const clearFilters = (e) => {
-    getAllGames()
-      .then((res) => res.json())
-      .then((resp) => {
-        if (resp.Response === 200) {
-          setGames(resp.games);
-        }
-      });
-
     setFilters({
       "media-type": "",
       players: "",
@@ -242,6 +254,24 @@ export const Find = (props) => {
     });
 
     setHasBeenFiltered(false);
+
+    getAllGames()
+      .then((res) => res.json())
+      .then((resp) => {
+        if (resp.Response === 200 && resp.games !== []) {
+          setGames(resp.games);
+        } else {
+          filteredGames(filters)
+            .then((res) => res.json())
+            .then((resp) => {
+              if (resp.Response === 200) {
+                setGames(resp.games);
+              } else {
+                setGames(["No Games to Display"]);
+              }
+            });
+        }
+      });
   };
 
   const history = useHistory();
@@ -254,7 +284,7 @@ export const Find = (props) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={classes.root} key='root-div'>
       <CssBaseline />
       <AppBar
         position='fixed'
@@ -274,6 +304,7 @@ export const Find = (props) => {
         </Toolbar>
       </AppBar>
       <Drawer
+        key='drawer'
         className={classes.drawer}
         variant='persistent'
         anchor='left'
@@ -292,11 +323,13 @@ export const Find = (props) => {
         </div>
         <Divider />
         <List>
-          {links.map((item) => (
-            <ListItem button key={item.text}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItem>
+          {links.map((item, index) => (
+            <Link to={item.link}>
+              <ListItem button key={index}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Drawer>
@@ -336,6 +369,7 @@ export const Find = (props) => {
 
         <div style={{ margin: "2% 0% ", textAlign: "center", color: "white" }}>
           <TextArea
+            className="oval-searchBar"
             style={{ width: "20%" }}
             value={filters["keyword"]}
             onChange={handleFilterKeywordChange}
@@ -349,7 +383,7 @@ export const Find = (props) => {
             textAlign: "center",
             color: "white",
           }}>
-          <Button onClick={handleFilter}>Filter</Button>
+          <Button class="oval-button" onClick={handleFilter}>Filter</Button>
         </div>
 
         {hasBeenFiltered && (
@@ -359,13 +393,13 @@ export const Find = (props) => {
               textAlign: "center",
               color: "white",
             }}>
-            <Button onClick={clearFilters}>Clear Filters</Button>
+            <Button class="oval-button" onClick={clearFilters}>Clear Filters</Button>
           </div>
         )}
 
         <div style={{ margin: "3% 10%" }}>
           <GridList
-            cellHeight={160}
+            cellHeight={400}
             cols={3}
             className={{
               width: 500,
@@ -375,9 +409,16 @@ export const Find = (props) => {
               <GridListTile key={index} cols={1}>
                 <CardActionArea>
                   <Card onClick={() => goToGame(game)}>
+                  <CardMedia
+                    component="img"
+                    alt= {game["game-name"]}
+                    height="300"
+                    image=""
+                    title="Contemplative Reptile"
+                    />
                     <CardContent style={{ textAlign: "center" }}>
-                      <Typography style={{ ...theme }}>
-                        <h2>{game["game-name"]}</h2>
+                      <Typography variant='h5' style={{ ...theme }}>
+                        {game["game-name"]}
                       </Typography>
                     </CardContent>
                   </Card>
