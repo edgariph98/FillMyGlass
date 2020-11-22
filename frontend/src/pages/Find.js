@@ -29,7 +29,9 @@ import CardContent from "@material-ui/core/CardContent";
 import { Select, Input } from "antd";
 import "../css/App.css";
 import "../fonts/Lato-Regular.ttf";
+import "../css/BasicStyles.css";
 import Button from "@material-ui/core/Button";
+import CardMedia from '@material-ui/core/CardMedia';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -37,27 +39,24 @@ const { Option } = Select;
 const links = [
   {
     icon: (
-      <Link to='/find'>
-        <Search />
-      </Link>
+      <Search />
     ),
-    text: <Link to='/find'>Find Game</Link>,
+    text: 'Find Game',
+    link: '/find'
   },
   {
     icon: (
-      <Link to='/create'>
-        <Create />
-      </Link>
+      <Create />
     ),
-    text: <Link to='/create'>Create Game</Link>,
+    text: 'Create Game',
+    link: '/create'
   },
   {
     icon: (
-      <Link to='/about'>
-        <Info />
-      </Link>
+      <Info />
     ),
-    text: <Link to='/about'>About</Link>,
+    text: 'About',
+    link: '/about'
   },
 ];
 
@@ -194,6 +193,7 @@ export const Find = (props) => {
           }
         });
     }
+
   }, []);
 
   const classes = useStyles();
@@ -324,10 +324,12 @@ export const Find = (props) => {
         <Divider />
         <List>
           {links.map((item, index) => (
-            <ListItem button key={index}>
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItem>
+            <Link to={item.link}>
+              <ListItem button key={index}>
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.text} />
+              </ListItem>
+            </Link>
           ))}
         </List>
       </Drawer>
@@ -367,6 +369,7 @@ export const Find = (props) => {
 
         <div style={{ margin: "2% 0% ", textAlign: "center", color: "white" }}>
           <TextArea
+            className="oval-searchBar"
             style={{ width: "20%" }}
             value={filters["keyword"]}
             onChange={handleFilterKeywordChange}
@@ -380,7 +383,7 @@ export const Find = (props) => {
             textAlign: "center",
             color: "white",
           }}>
-          <Button onClick={handleFilter}>Filter</Button>
+          <Button class="oval-button" onClick={handleFilter}>Filter</Button>
         </div>
 
         {hasBeenFiltered && (
@@ -390,13 +393,13 @@ export const Find = (props) => {
               textAlign: "center",
               color: "white",
             }}>
-            <Button onClick={clearFilters}>Clear Filters</Button>
+            <Button class="oval-button" onClick={clearFilters}>Clear Filters</Button>
           </div>
         )}
 
         <div style={{ margin: "3% 10%" }}>
           <GridList
-            cellHeight={160}
+            cellHeight={400}
             cols={3}
             className={{
               width: 500,
@@ -406,6 +409,13 @@ export const Find = (props) => {
               <GridListTile key={index} cols={1}>
                 <CardActionArea>
                   <Card onClick={() => goToGame(game)}>
+                  <CardMedia
+                    component="img"
+                    alt= {game["game-name"]}
+                    height="300"
+                    image=""
+                    title="Contemplative Reptile"
+                    />
                     <CardContent style={{ textAlign: "center" }}>
                       <Typography variant='h5' style={{ ...theme }}>
                         {game["game-name"]}
