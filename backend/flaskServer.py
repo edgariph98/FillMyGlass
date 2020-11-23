@@ -18,7 +18,7 @@ def create_app():
             response["Response"] = 200
             response["Description"] = "New Game Submitted"
 
-        except:
+        except: 
             response["Response"] = 400
             response["Description"] = "Unable to submit game into database"
         

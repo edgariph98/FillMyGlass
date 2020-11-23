@@ -8,6 +8,7 @@ class PostgresConnector:
     def __init__(self):
         self.DATABASE_URL = os.environ["DATABASE_URI"]
         self.conn = psycopg2.connect(self.DATABASE_URL, sslmode='require')
+        self.conn.set_session(autocommit=True)
         self.cursor = self.conn.cursor()
     #executing query and returning value if we want to read it
     def executeQuery(self, query, read):
@@ -16,18 +17,15 @@ class PostgresConnector:
         if read:
             result = self.cursor.fetchall()
         #result = None
-        self.conn.commit()
+        #self.conn.commit()
         return result
     #game submission to database
     def submitGame(self, gameName,media_name, media_type, game_rules, players, url, imageURL):
-        gameName = self.parseStringArgument(gameName)
-        media_name = self.parseStringArgument(media_name)
-        game_rules = self.parseStringArgument(game_rules)
         query = """INSERT INTO "Games" ("game_name","media_name","media_type","game_rules","players", "url","image_url") 
-                    VALUES (\'{}\', \'{}\', \'{}\', \'{}\', {},\'{}\', \'{}\'); """
-        query = query.format(gameName, media_name, media_type, game_rules, players, url,imageURL)
+                    VALUES (%s,%s,%s,%s, %s,%s,%s); """
+        #query = query.format(gameName, media_name, media_type, game_rules, players, url,imageURL)
         #print(query)
-        self.executeQuery(query,False)
+        self.cursor.execute(query,(gameName,media_name,media_type,game_rules,players,url,imageURL))
 
     
     #gets all games from database
@@ -87,7 +85,6 @@ class PostgresConnector:
                         WHERE "players" >= {};"""
             query = query.format(players)
         games = self.executeQuery(query, True)
-        #print(query)
         for row in games:
             game = {}
             game["game-name"] = row[1]
@@ -101,7 +98,7 @@ class PostgresConnector:
 
         return gameList
     def parseStringArgument(self,string):
-        parsedString = string.replace('"','\\"').strip()
+        parsedString = string.replace('"','\"').replace("'","\'").strip()
         return parsedString
 
     def getMediaTypes(self):
